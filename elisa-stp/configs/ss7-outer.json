@@ -1,0 +1,58 @@
+{
+  "stackName" : "stp-relay",
+  "sctp" : {
+    "connectDelay" : 1000,
+    "workerThreads" : 8,
+    "backend" : "NETTY_KERNEL",
+    "links" : [ {
+      "name" : "L-A",
+      "type" : "server",
+      "channel" : "sctp",
+      "local" : "127.0.0.1:8021",
+      "peer" : "127.0.0.1:8022",
+      "localSecondary" : [ ]
+    } ]
+  },
+  "m3ua" : {
+    "as" : [ {
+      "name" : "AS-A",
+      "mode" : "loadshare",
+      "functionality" : "ipsp",
+      "ipsp" : "server",
+      "routingContext" : 0,
+      "links" : [ "L-A" ]
+    } ],
+    "routes" : [ {
+      "to" : {
+        "dpc" : 2,
+        "opc" : 10
+      },
+      "via" : "AS-A"
+    } ]
+  },
+  "sccp" : {
+    "localPoints" : [ {
+      "pc" : 10,
+      "networkIndicator" : "national",
+      "networkId" : 0,
+      "reachablePointCodes" : [ 2, 3 ]
+    } ],
+    "routing" : [ {
+      "from" : "remote",
+      "networkId" : 0,
+      "mask" : "R/-",
+      "match" : {
+        "gt" : "29190002/*"
+      },
+      "to" : {
+        "pc" : 2,
+        "ssn" : 8
+      }
+    } ]
+  },
+  "services" : [ {
+    "name" : "relay",
+    "ssn" : 8,
+    "protocol" : "tcap"
+  } ]
+}

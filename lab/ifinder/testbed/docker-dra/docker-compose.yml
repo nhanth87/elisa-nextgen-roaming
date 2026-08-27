@@ -1,0 +1,22 @@
+# Diameter testbed: MME-attacker/bench hits DRA ingress :3868; DRA relays to hss-sim :3869.
+services:
+  dra:
+    build:
+      context: .
+      dockerfile: Dockerfile.dra
+    ports:
+      - "3868:3868"
+      - "8080:8080"
+    volumes:
+      - ./artifacts/dra-peers.json:/opt/dra/configs/dra-peers.json:ro
+  hss-sim:
+    build:
+      context: .
+      dockerfile: Dockerfile.hss-sim
+    ports:
+      - "8086:8086"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fs http://localhost:8086/api/health || exit 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 12

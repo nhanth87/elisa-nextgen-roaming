@@ -1,0 +1,10 @@
+# Nextgen DRA — runtime image for the iFinder diameter testbed.
+# Build context expects the packaged dist at artifacts/dra-dist.tar.gz
+# (produced by `dist-tools/package-dist.sh` in the Nextgen-DRA repo).
+FROM eclipse-temurin:25-jre
+WORKDIR /opt/dra
+COPY artifacts/dra-dist.tar.gz /tmp/dra.tgz
+RUN tar -xzf /tmp/dra.tgz -C /opt/dra --strip-components=1 && rm /tmp/dra.tgz \
+ && chmod +x run.sh && mkdir -p logs data
+EXPOSE 3868 8080
+CMD ["./run.sh"]

@@ -1,0 +1,44 @@
+{
+  "procedure_id": "DIAMETER_Capabilities_Exchange",
+  "direction": "client -> DRA -> Diameter server",
+  "dependency_procedures": [],
+  "message_flow": [
+    {
+      "seq": 1,
+      "from": "MME",
+      "to": "DRA",
+      "message": "CapabilitiesExchangeRequest",
+      "mandatory_ies": [
+        "OriginHost",
+        "OriginRealm"
+      ]
+    },
+    {
+      "seq": 2,
+      "from": "DRA",
+      "to": "HSS",
+      "message": "",
+      "mandatory_ies": []
+    },
+    {
+      "seq": 3,
+      "from": "HSS",
+      "to": "DRA",
+      "message": "CapabilitiesExchangeAnswer",
+      "mandatory_ies": [
+        "ResultCode",
+        "OriginHost",
+        "OriginRealm"
+      ]
+    },
+    {
+      "seq": 4,
+      "from": "DRA",
+      "to": "MME",
+      "message": "CapabilitiesExchangeAnswer",
+      "mandatory_ies": [
+        "ResultCode"
+      ]
+    }
+  ]
+}

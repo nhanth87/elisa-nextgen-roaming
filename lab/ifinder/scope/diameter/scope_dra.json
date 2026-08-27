@@ -1,0 +1,14 @@
+{
+  "scope_name": "nextgen-dra-diameter",
+  "targets": [
+    {
+      "name": "dra",
+      "version": "0.1.0-SNAPSHOT",
+      "target_codebase": "target/dra_code",
+      "scan_dirs": [
+        "elisa-dra/src/main/java/"
+      ],
+      "protocol": "diameter"
+    }
+  ]
+}

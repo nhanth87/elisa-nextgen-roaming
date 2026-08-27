@@ -1,0 +1,54 @@
+{
+  "message_name": "AuthenticationInformationRequest",
+  "Direction": "MME -> DRA -> HSS (S6a, TS29.272 5.3.2)",
+  "ies": [
+    {
+      "name": "SessionId",
+      "requirement": "Mandatory",
+      "multiplicity": "Multiple",
+      "is_grouped": false
+    },
+    {
+      "name": "UserName",
+      "requirement": "Mandatory",
+      "multiplicity": "Multiple",
+      "is_grouped": false
+    },
+    {
+      "name": "OriginHost",
+      "requirement": "Mandatory",
+      "multiplicity": "Multiple",
+      "is_grouped": false
+    },
+    {
+      "name": "OriginRealm",
+      "requirement": "Mandatory",
+      "multiplicity": "Multiple",
+      "is_grouped": false
+    },
+    {
+      "name": "DestinationRealm",
+      "requirement": "Mandatory",
+      "multiplicity": "Multiple",
+      "is_grouped": false
+    },
+    {
+      "name": "VisitedPlmnId",
+      "requirement": "Mandatory",
+      "multiplicity": "Multiple",
+      "is_grouped": false
+    },
+    {
+      "name": "RequestedEutranAuthenticationInfo",
+      "requirement": "Conditional",
+      "multiplicity": "Multiple",
+      "is_grouped": false
+    },
+    {
+      "name": "AirFlags",
+      "requirement": "Conditional",
+      "multiplicity": "Multiple",
+      "is_grouped": false
+    }
+  ]
+}

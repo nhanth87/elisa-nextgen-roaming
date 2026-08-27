@@ -1,0 +1,26 @@
+{
+  "procedure_id": "DIAMETER_Device_Watchdog",
+  "direction": "peer <-> DRA (per-link watchdog)",
+  "dependency_procedures": [],
+  "message_flow": [
+    {
+      "seq": 1,
+      "from": "NodeA",
+      "to": "DRA",
+      "message": "DeviceWatchdogRequest",
+      "mandatory_ies": [
+        "OriginHost",
+        "OriginRealm"
+      ]
+    },
+    {
+      "seq": 2,
+      "from": "DRA",
+      "to": "NodeA",
+      "message": "DeviceWatchdogAnswer",
+      "mandatory_ies": [
+        "ResultCode"
+      ]
+    }
+  ]
+}

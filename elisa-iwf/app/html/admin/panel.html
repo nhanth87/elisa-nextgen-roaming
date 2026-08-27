@@ -1,0 +1,13 @@
+<div class="admin-panel">
+  <p class="text-xs uppercase tracking-[0.25em] text-signal">Protocol KPI</p>
+  <h2 class="mt-1 text-xl font-semibold text-slate-50">IWF · MAP ↔ Diameter</h2>
+  <p class="mt-2 text-sm text-ink-mute">
+    Counters since process start. MAP ops = server-initiated from Diameter side;
+    Diameter ops = client-initiated from MAP side. Binding lifecycle tracks
+    IMSI ↔ dialog affinity.
+  </p>
+  <div class="ra-status" id="kpi-status"
+       hx-get="/api/ra/iwf/status.html"
+       hx-trigger="load, every 4s"
+       hx-swap="innerHTML">Loading…</div>
+</div>

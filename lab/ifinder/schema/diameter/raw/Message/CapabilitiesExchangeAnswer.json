@@ -1,0 +1,42 @@
+{
+  "message_name": "CapabilitiesExchangeAnswer",
+  "Direction": "Diameter node -> client",
+  "ies": [
+    {
+      "name": "SessionId",
+      "requirement": "Mandatory",
+      "multiplicity": "Multiple",
+      "is_grouped": false
+    },
+    {
+      "name": "ResultCode",
+      "requirement": "Mandatory",
+      "multiplicity": "Multiple",
+      "is_grouped": false
+    },
+    {
+      "name": "OriginHost",
+      "requirement": "Mandatory",
+      "multiplicity": "Multiple",
+      "is_grouped": false
+    },
+    {
+      "name": "OriginRealm",
+      "requirement": "Mandatory",
+      "multiplicity": "Multiple",
+      "is_grouped": false
+    },
+    {
+      "name": "AuthApplicationId",
+      "requirement": "Conditional",
+      "multiplicity": "Multiple",
+      "is_grouped": false
+    },
+    {
+      "name": "OriginStateId",
+      "requirement": "Conditional",
+      "multiplicity": "Multiple",
+      "is_grouped": false
+    }
+  ]
+}

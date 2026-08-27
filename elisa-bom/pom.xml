@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>et.elisa</groupId>
+    <artifactId>elisa-roaming</artifactId>
+    <version>0.1.0-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>elisa-bom</artifactId>
+  <packaging>pom</packaging>
+
+  <name>Elisa Roaming BOM — version pinning for downstream consumers</name>
+  <description>
+    Importable BOM exporting the full Elisa Roaming dependencyManagement:
+    Quarkus 3.37.3, micro-jainslee 1.2.0-SNAPSHOT, corsac 10.0.0-41-SNAPSHOT,
+    Log4j2 2.26.1, Jackson 2.17.2, SCTP 2.27.32, Infinispan 15.0.0.Final.
+  </description>
+
+  <properties>
+    <elisa-roaming.version>${project.version}</elisa-roaming.version>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>et.elisa</groupId>
+        <artifactId>elisa-roaming</artifactId>
+        <version>${elisa-roaming.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+</project>

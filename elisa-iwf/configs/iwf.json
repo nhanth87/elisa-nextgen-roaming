@@ -1,0 +1,17 @@
+{
+  "diameter": {
+    "draHost": "127.0.0.1",
+    "draPort": 3870,
+    "srcPort": 38690,
+    "originHost": "iwf1.epc.mnc01.mcc452.3gppnetwork.org",
+    "originRealm": "epc.mnc01.mcc452.3gppnetwork.org",
+    "destHost": "dra1.epc.mnc01.mcc452.3gppnetwork.org",
+    "destRealm": "epc.mnc01.mcc452.3gppnetwork.org",
+    "responseTimeoutMillis": 5000
+  },
+  "map": {
+    "ssn": 146,
+    "ownGt": "8860123456001",
+    "ownSpc": "250"
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "procedure_id": "S6A_Authentication_Information",
+  "direction": "MME -> DRA -> HSS pool (vector fetch)",
+  "dependency_procedures": [
+    "DIAMETER_Capabilities_Exchange"
+  ],
+  "message_flow": [
+    {
+      "seq": 1,
+      "from": "MME",
+      "to": "DRA",
+      "message": "AuthenticationInformationRequest",
+      "mandatory_ies": [
+        "UserName",
+        "VisitedPlmnId"
+      ]
+    },
+    {
+      "seq": 2,
+      "from": "DRA",
+      "to": "HSS",
+      "message": "AuthenticationInformationRequest",
+      "mandatory_ies": [
+        "UserName",
+        "VisitedPlmnId"
+      ]
+    },
+    {
+      "seq": 3,
+      "from": "HSS",
+      "to": "DRA",
+      "message": "AuthenticationInformationAnswer",
+      "mandatory_ies": [
+        "ResultCode"
+      ]
+    },
+    {
+      "seq": 4,
+      "from": "DRA",
+      "to": "MME",
+      "message": "AuthenticationInformationAnswer",
+      "mandatory_ies": [
+        "ResultCode"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+<!-- STP KPI pack panel (Monitor Hub tab) — polls the pack's own status.html API. -->
+<div class="link-status-panel" id="stp-kpi-panel" hx-get="/api/ra/stp-kpi/status.html"
+     hx-trigger="load, every 5s" hx-swap="innerHTML">
+  <p class="admin-empty">Loading STP transit KPIs…</p>
+</div>

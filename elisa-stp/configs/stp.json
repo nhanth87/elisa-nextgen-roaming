@@ -1,0 +1,24 @@
+{
+  "stackName": "stp-relay",
+  "ha": {
+    "mode": "ACTIVE_ACTIVE",
+    "nodeId": "stp-node-1",
+    "dialogIdRangeStart": 0,
+    "dialogIdRangeEnd": 0,
+    "peers": []
+  },
+  "transit": {
+    "enabled": true,
+    "removeSpc": true,
+    "maskGtInLogs": true
+  },
+  "acl": {
+    "defaultAction": "DROP_SILENT",
+    "entries": [
+      { "action": "ALLOW", "dpc": 2, "ssns": [8] },
+      { "action": "ALLOW", "dpc": 3, "ssns": [8] },
+      { "action": "ALLOW", "dpc": 4, "ssns": [6, 8, 145],
+        "gt": "29190004*" }
+    ]
+  }
+}

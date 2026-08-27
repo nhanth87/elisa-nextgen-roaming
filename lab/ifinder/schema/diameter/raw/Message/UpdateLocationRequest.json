@@ -1,0 +1,60 @@
+{
+  "message_name": "UpdateLocationRequest",
+  "Direction": "MME -> DRA -> HSS (S6a, TS29.272 5.2.2.2)",
+  "ies": [
+    {
+      "name": "SessionId",
+      "requirement": "Mandatory",
+      "multiplicity": "Multiple",
+      "is_grouped": false
+    },
+    {
+      "name": "UserName",
+      "requirement": "Mandatory",
+      "multiplicity": "Multiple",
+      "is_grouped": false
+    },
+    {
+      "name": "OriginHost",
+      "requirement": "Mandatory",
+      "multiplicity": "Multiple",
+      "is_grouped": false
+    },
+    {
+      "name": "OriginRealm",
+      "requirement": "Mandatory",
+      "multiplicity": "Multiple",
+      "is_grouped": false
+    },
+    {
+      "name": "DestinationRealm",
+      "requirement": "Mandatory",
+      "multiplicity": "Multiple",
+      "is_grouped": false
+    },
+    {
+      "name": "DestinationHost",
+      "requirement": "Conditional",
+      "multiplicity": "Multiple",
+      "is_grouped": false
+    },
+    {
+      "name": "RatType",
+      "requirement": "Mandatory",
+      "multiplicity": "Multiple",
+      "is_grouped": false
+    },
+    {
+      "name": "UlrFlags",
+      "requirement": "Mandatory",
+      "multiplicity": "Multiple",
+      "is_grouped": false
+    },
+    {
+      "name": "VisitedPlmnId",
+      "requirement": "Mandatory",
+      "multiplicity": "Multiple",
+      "is_grouped": false
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "schema": "stp.gtt.fixtures/v1",
+  "description": "Nextgen STP GTT fixtures (DESIGN §3 numbering plan template, §9.4.2, §10.2 P5+P7). Internal service PCs 200-299 are hidden from peers; GTT rewrites the CdPA to hidden DPC+SSN and never touches the CgPA. GT patterns use jSS7-native grammar ('/' mask sections, '*' = rest of digits).",
+  "networkId": 0,
+  "rules": [
+    {
+      "ruleId": 1,
+      "service": "USSD",
+      "description": "USSD exact-match shortcode inside the USSD range — specificity must beat the wildcard range.",
+      "gtPattern": "2519123456",
+      "gti": "0001",
+      "natureOfAddress": "INTERNATIONAL",
+      "dpc": 204,
+      "ssn": 251
+    },
+    {
+      "ruleId": 2,
+      "service": "USSD",
+      "description": "USSD GT range 2519* -> hidden USSDGW cluster PC 201, USSD service SSN 251 (appears after GTT only).",
+      "gtPattern": "2519/*",
+      "gti": "0001",
+      "natureOfAddress": "INTERNATIONAL",
+      "dpc": 201,
+      "ssn": 251
+    },
+    {
+      "ruleId": 3,
+      "service": "SMSC",
+      "description": "SMSC GT range 2511* -> hidden SMSC cluster PC 202, SMSC SSN 8.",
+      "gtPattern": "2511/*",
+      "gti": "0001",
+      "natureOfAddress": "INTERNATIONAL",
+      "dpc": 202,
+      "ssn": 8
+    },
+    {
+      "ruleId": 4,
+      "service": "GMLC",
+      "description": "GMLC GT range 2512* -> hidden GMLC cluster PC 203, GMLC/LCS SSN 145.",
+      "gtPattern": "2512/*",
+      "gti": "0001",
+      "natureOfAddress": "INTERNATIONAL",
+      "dpc": 203,
+      "ssn": 145
+    }
+  ],
+  "negativeGts": [
+    "252123456789",
+    "351912345678",
+    "251300000000",
+    "9999"
+  ]
+}

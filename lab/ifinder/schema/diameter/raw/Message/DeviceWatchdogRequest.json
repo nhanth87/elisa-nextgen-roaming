@@ -1,0 +1,18 @@
+{
+  "message_name": "DeviceWatchdogRequest",
+  "Direction": "any node -> peer (transport watchdog)",
+  "ies": [
+    {
+      "name": "OriginHost",
+      "requirement": "Mandatory",
+      "multiplicity": "Multiple",
+      "is_grouped": false
+    },
+    {
+      "name": "OriginRealm",
+      "requirement": "Mandatory",
+      "multiplicity": "Multiple",
+      "is_grouped": false
+    }
+  ]
+}

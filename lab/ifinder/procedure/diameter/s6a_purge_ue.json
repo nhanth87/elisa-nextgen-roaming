@@ -1,0 +1,45 @@
+{
+  "procedure_id": "S6A_Purge_UE",
+  "direction": "MME -> DRA -> HSS pool",
+  "dependency_procedures": [
+    "DIAMETER_Capabilities_Exchange"
+  ],
+  "message_flow": [
+    {
+      "seq": 1,
+      "from": "MME",
+      "to": "DRA",
+      "message": "PurgeUERequest",
+      "mandatory_ies": [
+        "UserName"
+      ]
+    },
+    {
+      "seq": 2,
+      "from": "DRA",
+      "to": "HSS",
+      "message": "PurgeUERequest",
+      "mandatory_ies": [
+        "UserName"
+      ]
+    },
+    {
+      "seq": 3,
+      "from": "HSS",
+      "to": "DRA",
+      "message": "PurgeUEAnswer",
+      "mandatory_ies": [
+        "ResultCode"
+      ]
+    },
+    {
+      "seq": 4,
+      "from": "DRA",
+      "to": "MME",
+      "message": "PurgeUEAnswer",
+      "mandatory_ies": [
+        "ResultCode"
+      ]
+    }
+  ]
+}

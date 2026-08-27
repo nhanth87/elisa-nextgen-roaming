@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+  <Properties>
+    <Property name="LOG_DIR">${sys:stp.log.dir:-logs}</Property>
+    <Property name="MAX_SIZE">${sys:stp.log.max-size:-200MB}</Property>
+    <Property name="MAX_FILES">${sys:stp.log.max-files:-30}</Property>
+    <Property name="MAX_AGE">${sys:stp.log.max-age:-14d}</Property>
+  </Properties>
+  <Appenders>
+    <RollingFile name="APP" fileName="${LOG_DIR}/stp.log"
+                 filePattern="${LOG_DIR}/stp-%d{yyyy-MM-dd}-%i.log.gz">
+      <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p [%t] %c{1.} - %m%n"/>
+      <Policies>
+        <TimeBasedTriggeringPolicy/>
+        <SizeBasedTriggeringPolicy size="${MAX_SIZE}"/>
+      </Policies>
+      <DefaultRolloverStrategy max="${MAX_FILES}">
+        <Delete basePath="${LOG_DIR}" maxDepth="1">
+          <IfFileName glob="stp-*.log.gz"/>
+          <IfLastModified age="${MAX_AGE}"/>
+        </Delete>
+      </DefaultRolloverStrategy>
+    </RollingFile>
+    <RollingFile name="SLEE" fileName="${LOG_DIR}/stp-slee.log"
+                 filePattern="${LOG_DIR}/stp-slee-%d{yyyy-MM-dd}-%i.log.gz">
+      <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p [%t] %m%n"/>
+      <Policies>
+        <TimeBasedTriggeringPolicy/>
+        <SizeBasedTriggeringPolicy size="${MAX_SIZE}"/>
+      </Policies>
+      <DefaultRolloverStrategy max="${MAX_FILES}">
+        <Delete basePath="${LOG_DIR}" maxDepth="1">
+          <IfFileName glob="stp-slee-*.log.gz"/>
+          <IfLastModified age="${MAX_AGE}"/>
+        </Delete>
+      </DefaultRolloverStrategy>
+    </RollingFile>
+    <Console name="CONSOLE" target="SYSTEM_OUT">
+      <PatternLayout pattern="%d{HH:mm:ss.SSS} %-5p %c{1.} - %m%n"/>
+    </Console>
+    <Async name="SLEE_ASYNC" bufferSize="65536" blocking="false" includeLocation="false">
+      <AppenderRef ref="SLEE"/>
+      <AppenderRef ref="CONSOLE"/>
+    </Async>
+  </Appenders>
+  <Loggers>
+    <Logger name="SLEE" level="INFO" additivity="false"><AppenderRef ref="SLEE_ASYNC"/></Logger>
+    <Root level="INFO"><AppenderRef ref="APP"/><AppenderRef ref="CONSOLE"/></Root>
+  </Loggers>
+</Configuration>

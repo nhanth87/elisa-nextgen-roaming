@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>et.elisa</groupId>
+        <artifactId>elisa-roaming</artifactId>
+        <version>0.1.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>elisa-stp</artifactId>
+    <name>Elisa Nextgen STP (active-active SS7 STP, micro-jainslee / Quarkus)</name>
+    <description>Active-active SS7 STP on micro-jainslee + Quarkus + ra-jss7 (+ ra-diameter).
+        Structure mirrors gmlc-microjainslee. Java 25 only.</description>
+
+    <properties>
+        <quarkus.build.skip>true</quarkus.build.skip>
+        <quarkus.native.enabled>false</quarkus.native.enabled>
+    </properties>
+
+    <dependencies>
+        <dependency><groupId>io.quarkus</groupId><artifactId>quarkus-arc</artifactId>
+            <exclusions>
+                <!-- Log4j2-only policy: no slf4j→jboss bridge. jboss-logmanager itself is a
+                     STRUCTURAL requirement of the Quarkus fast-jar entrypoint (it force-sets
+                     java.util.logging.manager at main()) and cannot be excluded; it stays
+                     SILENT because every real route is forced into Log4j2:
+                     JUL → log4j-jul · slf4j → log4j-slf4j2-impl · log4j1 API → log4j-1.2-api
+                     · jboss-logging facade → -Dorg.jboss.logging.provider=log4j2 -->
+                <exclusion><groupId>org.jboss.slf4j</groupId><artifactId>slf4j-jboss-logmanager</artifactId></exclusion>
+            </exclusions>
+        </dependency>
+        <dependency><groupId>com.microjainslee</groupId><artifactId>jainslee-telemetry</artifactId><version>${microjainslee.version}</version></dependency>
+        <dependency><groupId>com.microjainslee</groupId><artifactId>jainslee-admin-spi</artifactId><version>${microjainslee.version}</version></dependency>
+        <dependency><groupId>com.microjainslee</groupId><artifactId>jainslee-monitor</artifactId><version>${microjainslee.version}</version></dependency>
+        <dependency><groupId>io.micrometer</groupId><artifactId>micrometer-registry-prometheus</artifactId></dependency>
+        <dependency><groupId>com.fasterxml.jackson.core</groupId><artifactId>jackson-databind</artifactId></dependency>
+        <dependency>
+            <groupId>com.microjainslee</groupId>
+            <artifactId>ra-jss7</artifactId>
+            <version>${microjainslee.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.mobicents.protocols.sctp</groupId>
+                    <artifactId>sctp-impl</artifactId>
+                </exclusion>
+                <!-- Log4j2-only policy: legacy log4j 1.x (EOL/CVE) excluded; callers bind to log4j-1.2-api → Log4j2. -->
+                <exclusion><groupId>log4j</groupId><artifactId>log4j</artifactId></exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.microjainslee</groupId>
+            <artifactId>ra-diameter</artifactId>
+            <version>${microjainslee.version}</version>
+            <!-- API-compat only, unused at runtime; strip its legacy slf4j→log4j1 binding. -->
+            <exclusions>
+                <exclusion><groupId>org.slf4j</groupId><artifactId>slf4j-log4j12</artifactId></exclusion>
+                <exclusion><groupId>log4j</groupId><artifactId>log4j</artifactId></exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.mobicents.protocols.sctp</groupId>
+            <artifactId>sctp-core</artifactId>
+            <exclusions>
+                <exclusion><groupId>log4j</groupId><artifactId>log4j</artifactId></exclusion>
+            </exclusions>
+        </dependency>
+        <!-- NETTY_KERNEL transport oracle (lab ss7.json sctp.backend=NETTY_KERNEL).
+             Production ships sctp-backend-fstack only; this module is excluded from
+             ra-jss7 on purpose and re-added here for JVM-only labs/tests. -->
+        <dependency>
+            <groupId>org.mobicents.protocols.sctp</groupId>
+            <artifactId>sctp-impl</artifactId>
+            <exclusions>
+                <exclusion><groupId>log4j</groupId><artifactId>log4j</artifactId></exclusion>
+                <exclusion><groupId>org.slf4j</groupId><artifactId>slf4j-log4j12</artifactId></exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.mobicents.protocols.sctp</groupId>
+            <artifactId>sctp-backend-fstack</artifactId>
+            <exclusions>
+                <exclusion><groupId>log4j</groupId><artifactId>log4j</artifactId></exclusion>
+            </exclusions>
+        </dependency>
+        <dependency><groupId>com.microjainslee</groupId><artifactId>jainslee-cluster</artifactId><version>${microjainslee.version}</version></dependency>
+        <dependency><groupId>com.microjainslee</groupId><artifactId>ra-http-server</artifactId><version>${microjainslee.version}</version></dependency>
+        <dependency><groupId>com.microjainslee</groupId><artifactId>jainslee-core</artifactId><version>${microjainslee.version}</version></dependency>
+        <dependency><groupId>com.microjainslee</groupId><artifactId>jainslee-api</artifactId><version>${microjainslee.version}</version></dependency>
+        <dependency><groupId>org.infinispan</groupId><artifactId>infinispan-core</artifactId></dependency>
+        <dependency><groupId>org.infinispan</groupId><artifactId>infinispan-commons</artifactId></dependency>
+        <dependency><groupId>org.infinispan.protostream</groupId><artifactId>protostream</artifactId></dependency>
+        <dependency><groupId>org.infinispan.protostream</groupId><artifactId>protostream-types</artifactId></dependency>
+        <dependency><groupId>com.microjainslee</groupId><artifactId>jainslee-apt</artifactId><version>${microjainslee.version}</version><optional>true</optional></dependency>
+        <dependency><groupId>com.microjainslee</groupId><artifactId>adapter-quarkus</artifactId><version>${microjainslee.version}</version></dependency>
+        <!-- Log4j2-only policy bridges: every other facade funnels into Log4j2.
+             Versions all managed by log4j-bom (${log4j2.version}).
+             - log4j-slf4j2-impl : the single active slf4j 2.x provider (SLF4J → Log4j2)
+             - log4j-jul         : JUL manager (java.util.logging.manager) → Log4j2
+             - log4j-1.2-api     : legacy org.apache.log4j callers → Log4j2 -->
+        <dependency><groupId>org.apache.logging.log4j</groupId><artifactId>log4j-api</artifactId></dependency>
+        <dependency><groupId>org.apache.logging.log4j</groupId><artifactId>log4j-core</artifactId></dependency>
+        <dependency><groupId>org.apache.logging.log4j</groupId><artifactId>log4j-slf4j2-impl</artifactId></dependency>
+        <dependency><groupId>org.apache.logging.log4j</groupId><artifactId>log4j-jul</artifactId></dependency>
+        <dependency><groupId>org.apache.logging.log4j</groupId><artifactId>log4j-1.2-api</artifactId></dependency>
+        <!-- Plain JUnit 5 only: no @QuarkusTest in this tree, and quarkus-junit drags
+             quarkus-core + jboss-logmanager onto the test classpath (Log4j2-only ban). -->
+        <dependency><groupId>org.junit.jupiter</groupId><artifactId>junit-jupiter</artifactId><scope>test</scope></dependency>
+        <dependency><groupId>org.assertj</groupId><artifactId>assertj-core</artifactId><scope>test</scope></dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>enforce-java-25</id>
+                        <goals><goal>enforce</goal></goals>
+                        <configuration>
+                            <rules>
+                                <requireJavaVersion>
+                                    <version>[25,26)</version>
+                                    <message>elisa-stp requires JDK 25 only. Use mise zulu-25.</message>
+                                </requireJavaVersion>
+                                <bannedDependencies>
+                                    <excludes>
+                                        <!-- Log4j2-only policy (owner mandate 2026-08-26): every
+                                             log event must flow through Log4j2. Legacy backends and
+                                             cross-facade bridges are banned; jboss-logmanager is the
+                                             one Quarkus-entrypoint structural exception (silent — see
+                                             quarkus-arc exclusion comment) and is enforced via the
+                                             source-scan test + org.jboss.logging.provider=log4j2. -->
+                                        <exclude>log4j:log4j</exclude>
+                                        <exclude>org.slf4j:slf4j-log4j12</exclude>
+                                        <exclude>ch.qos.reload4j:reload4j</exclude>
+                                        <exclude>org.jboss.slf4j:slf4j-jboss-logmanager</exclude>
+                                        <exclude>commons-logging:commons-logging</exclude>
+                                    </excludes>
+                                    <message>Log4j2-only policy violation: a forbidden logging backend was resolved. Route the facade into Log4j2 (log4j-slf4j2-impl / log4j-jul / log4j-1.2-api) instead.</message>
+                                </bannedDependencies>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>${quarkus.platform.group-id}</groupId>
+                <artifactId>quarkus-maven-plugin</artifactId>
+                <extensions>true</extensions>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>build</goal>
+                            <goal>generate-code</goal>
+                            <goal>generate-code-tests</goal>
+                        </goals>
+                        <configuration>
+                            <skip>${quarkus.build.skip}</skip>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <release>25</release>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>com.microjainslee</groupId>
+                            <artifactId>jainslee-api</artifactId>
+                            <version>${microjainslee.version}</version>
+                        </path>
+                        <path>
+                            <groupId>com.microjainslee</groupId>
+                            <artifactId>jainslee-apt</artifactId>
+                            <version>${microjainslee.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    <profiles>
+        <profile>
+            <id>jvm-harness</id>
+            <properties>
+                <quarkus.build.skip>false</quarkus.build.skip>
+                <quarkus.native.enabled>false</quarkus.native.enabled>
+                <quarkus.package.jar.type>fast-jar</quarkus.package.jar.type>
+            </properties>
+        </profile>
+    </profiles>
+</project>

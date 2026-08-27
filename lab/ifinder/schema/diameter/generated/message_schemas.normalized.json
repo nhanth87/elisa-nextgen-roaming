@@ -1,0 +1,480 @@
+{
+ "generated_at": "2026-08-24T00:00:00Z (re-authored from RFC6733 + TS29.272 local copies)",
+ "source_message_dir": "schema/diameter/raw/Message",
+ "source_ie_dir": "schema/diameter/raw/IE",
+ "message_count": 10,
+ "messages": {
+  "CapabilitiesExchangeRequest": {
+   "message_name": "CapabilitiesExchangeRequest",
+   "original_message_name": "CapabilitiesExchangeRequest",
+   "direction": "Diameter client -> Diameter node (relay/DRA/agent)",
+   "mandatory_ies": [
+    "SessionId",
+    "OriginHost",
+    "OriginRealm",
+    "HostIpAddress",
+    "VendorId",
+    "ProductName"
+   ],
+   "ies": {
+    "SessionId": {
+     "name": "SessionId",
+     "requirement": "Mandatory",
+     "multiplicity": "Multiple",
+     "is_grouped": false
+    },
+    "OriginHost": {
+     "name": "OriginHost",
+     "requirement": "Mandatory",
+     "multiplicity": "Multiple",
+     "is_grouped": false
+    },
+    "OriginRealm": {
+     "name": "OriginRealm",
+     "requirement": "Mandatory",
+     "multiplicity": "Multiple",
+     "is_grouped": false
+    },
+    "HostIpAddress": {
+     "name": "HostIpAddress",
+     "requirement": "Mandatory",
+     "multiplicity": "Multiple",
+     "is_grouped": false
+    },
+    "VendorId": {
+     "name": "VendorId",
+     "requirement": "Mandatory",
+     "multiplicity": "Multiple",
+     "is_grouped": false
+    },
+    "ProductName": {
+     "name": "ProductName",
+     "requirement": "Mandatory",
+     "multiplicity": "Multiple",
+     "is_grouped": false
+    },
+    "OriginStateId": {
+     "name": "OriginStateId",
+     "requirement": "Conditional",
+     "multiplicity": "Multiple",
+     "is_grouped": false
+    },
+    "AuthApplicationId": {
+     "name": "AuthApplicationId",
+     "requirement": "Conditional",
+     "multiplicity": "Multiple",
+     "is_grouped": false
+    },
+    "AcctApplicationId": {
+     "name": "AcctApplicationId",
+     "requirement": "Conditional",
+     "multiplicity": "Multiple",
+     "is_grouped": false
+    }
+   }
+  },
+  "CapabilitiesExchangeAnswer": {
+   "message_name": "CapabilitiesExchangeAnswer",
+   "original_message_name": "CapabilitiesExchangeAnswer",
+   "direction": "Diameter node -> client",
+   "mandatory_ies": [
+    "SessionId",
+    "ResultCode",
+    "OriginHost",
+    "OriginRealm"
+   ],
+   "ies": {
+    "SessionId": {
+     "name": "SessionId",
+     "requirement": "Mandatory",
+     "multiplicity": "Multiple",
+     "is_grouped": false
+    },
+    "ResultCode": {
+     "name": "ResultCode",
+     "requirement": "Mandatory",
+     "multiplicity": "Multiple",
+     "is_grouped": false
+    },
+    "OriginHost": {
+     "name": "OriginHost",
+     "requirement": "Mandatory",
+     "multiplicity": "Multiple",
+     "is_grouped": false
+    },
+    "OriginRealm": {
+     "name": "OriginRealm",
+     "requirement": "Mandatory",
+     "multiplicity": "Multiple",
+     "is_grouped": false
+    },
+    "AuthApplicationId": {
+     "name": "AuthApplicationId",
+     "requirement": "Conditional",
+     "multiplicity": "Multiple",
+     "is_grouped": false
+    },
+    "OriginStateId": {
+     "name": "OriginStateId",
+     "requirement": "Conditional",
+     "multiplicity": "Multiple",
+     "is_grouped": false
+    }
+   }
+  },
+  "DeviceWatchdogRequest": {
+   "message_name": "DeviceWatchdogRequest",
+   "original_message_name": "DeviceWatchdogRequest",
+   "direction": "any node -> peer (transport watchdog)",
+   "mandatory_ies": [
+    "OriginHost",
+    "OriginRealm"
+   ],
+   "ies": {
+    "OriginHost": {
+     "name": "OriginHost",
+     "requirement": "Mandatory",
+     "multiplicity": "Multiple",
+     "is_grouped": false
+    },
+    "OriginRealm": {
+     "name": "OriginRealm",
+     "requirement": "Mandatory",
+     "multiplicity": "Multiple",
+     "is_grouped": false
+    }
+   }
+  },
+  "DeviceWatchdogAnswer": {
+   "message_name": "DeviceWatchdogAnswer",
+   "original_message_name": "DeviceWatchdogAnswer",
+   "direction": "peer -> watchdog initiator",
+   "mandatory_ies": [
+    "OriginHost",
+    "OriginRealm",
+    "ResultCode"
+   ],
+   "ies": {
+    "OriginHost": {
+     "name": "OriginHost",
+     "requirement": "Mandatory",
+     "multiplicity": "Multiple",
+     "is_grouped": false
+    },
+    "OriginRealm": {
+     "name": "OriginRealm",
+     "requirement": "Mandatory",
+     "multiplicity": "Multiple",
+     "is_grouped": false
+    },
+    "ResultCode": {
+     "name": "ResultCode",
+     "requirement": "Mandatory",
+     "multiplicity": "Multiple",
+     "is_grouped": false
+    }
+   }
+  },
+  "UpdateLocationRequest": {
+   "message_name": "UpdateLocationRequest",
+   "original_message_name": "UpdateLocationRequest",
+   "direction": "MME -> DRA -> HSS (S6a, TS29.272 5.2.2.2)",
+   "mandatory_ies": [
+    "SessionId",
+    "UserName",
+    "OriginHost",
+    "OriginRealm",
+    "DestinationRealm",
+    "RatType",
+    "UlrFlags",
+    "VisitedPlmnId"
+   ],
+   "ies": {
+    "SessionId": {
+     "name": "SessionId",
+     "requirement": "Mandatory",
+     "multiplicity": "Multiple",
+     "is_grouped": false
+    },
+    "UserName": {
+     "name": "UserName",
+     "requirement": "Mandatory",
+     "multiplicity": "Multiple",
+     "is_grouped": false
+    },
+    "OriginHost": {
+     "name": "OriginHost",
+     "requirement": "Mandatory",
+     "multiplicity": "Multiple",
+     "is_grouped": false
+    },
+    "OriginRealm": {
+     "name": "OriginRealm",
+     "requirement": "Mandatory",
+     "multiplicity": "Multiple",
+     "is_grouped": false
+    },
+    "DestinationRealm": {
+     "name": "DestinationRealm",
+     "requirement": "Mandatory",
+     "multiplicity": "Multiple",
+     "is_grouped": false
+    },
+    "DestinationHost": {
+     "name": "DestinationHost",
+     "requirement": "Conditional",
+     "multiplicity": "Multiple",
+     "is_grouped": false
+    },
+    "RatType": {
+     "name": "RatType",
+     "requirement": "Mandatory",
+     "multiplicity": "Multiple",
+     "is_grouped": false
+    },
+    "UlrFlags": {
+     "name": "UlrFlags",
+     "requirement": "Mandatory",
+     "multiplicity": "Multiple",
+     "is_grouped": false
+    },
+    "VisitedPlmnId": {
+     "name": "VisitedPlmnId",
+     "requirement": "Mandatory",
+     "multiplicity": "Multiple",
+     "is_grouped": false
+    }
+   }
+  },
+  "UpdateLocationAnswer": {
+   "message_name": "UpdateLocationAnswer",
+   "original_message_name": "UpdateLocationAnswer",
+   "direction": "HSS -> DRA -> MME",
+   "mandatory_ies": [
+    "SessionId",
+    "ResultCode",
+    "OriginHost",
+    "OriginRealm"
+   ],
+   "ies": {
+    "SessionId": {
+     "name": "SessionId",
+     "requirement": "Mandatory",
+     "multiplicity": "Multiple",
+     "is_grouped": false
+    },
+    "ResultCode": {
+     "name": "ResultCode",
+     "requirement": "Mandatory",
+     "multiplicity": "Multiple",
+     "is_grouped": false
+    },
+    "OriginHost": {
+     "name": "OriginHost",
+     "requirement": "Mandatory",
+     "multiplicity": "Multiple",
+     "is_grouped": false
+    },
+    "OriginRealm": {
+     "name": "OriginRealm",
+     "requirement": "Mandatory",
+     "multiplicity": "Multiple",
+     "is_grouped": false
+    },
+    "UlrFlags": {
+     "name": "UlrFlags",
+     "requirement": "Conditional",
+     "multiplicity": "Multiple",
+     "is_grouped": false
+    }
+   }
+  },
+  "AuthenticationInformationRequest": {
+   "message_name": "AuthenticationInformationRequest",
+   "original_message_name": "AuthenticationInformationRequest",
+   "direction": "MME -> DRA -> HSS (S6a, TS29.272 5.3.2)",
+   "mandatory_ies": [
+    "SessionId",
+    "UserName",
+    "OriginHost",
+    "OriginRealm",
+    "DestinationRealm",
+    "VisitedPlmnId"
+   ],
+   "ies": {
+    "SessionId": {
+     "name": "SessionId",
+     "requirement": "Mandatory",
+     "multiplicity": "Multiple",
+     "is_grouped": false
+    },
+    "UserName": {
+     "name": "UserName",
+     "requirement": "Mandatory",
+     "multiplicity": "Multiple",
+     "is_grouped": false
+    },
+    "OriginHost": {
+     "name": "OriginHost",
+     "requirement": "Mandatory",
+     "multiplicity": "Multiple",
+     "is_grouped": false
+    },
+    "OriginRealm": {
+     "name": "OriginRealm",
+     "requirement": "Mandatory",
+     "multiplicity": "Multiple",
+     "is_grouped": false
+    },
+    "DestinationRealm": {
+     "name": "DestinationRealm",
+     "requirement": "Mandatory",
+     "multiplicity": "Multiple",
+     "is_grouped": false
+    },
+    "VisitedPlmnId": {
+     "name": "VisitedPlmnId",
+     "requirement": "Mandatory",
+     "multiplicity": "Multiple",
+     "is_grouped": false
+    },
+    "RequestedEutranAuthenticationInfo": {
+     "name": "RequestedEutranAuthenticationInfo",
+     "requirement": "Conditional",
+     "multiplicity": "Multiple",
+     "is_grouped": false
+    },
+    "AirFlags": {
+     "name": "AirFlags",
+     "requirement": "Conditional",
+     "multiplicity": "Multiple",
+     "is_grouped": false
+    }
+   }
+  },
+  "AuthenticationInformationAnswer": {
+   "message_name": "AuthenticationInformationAnswer",
+   "original_message_name": "AuthenticationInformationAnswer",
+   "direction": "HSS -> DRA -> MME",
+   "mandatory_ies": [
+    "SessionId",
+    "ResultCode",
+    "OriginHost",
+    "OriginRealm"
+   ],
+   "ies": {
+    "SessionId": {
+     "name": "SessionId",
+     "requirement": "Mandatory",
+     "multiplicity": "Multiple",
+     "is_grouped": false
+    },
+    "ResultCode": {
+     "name": "ResultCode",
+     "requirement": "Mandatory",
+     "multiplicity": "Multiple",
+     "is_grouped": false
+    },
+    "OriginHost": {
+     "name": "OriginHost",
+     "requirement": "Mandatory",
+     "multiplicity": "Multiple",
+     "is_grouped": false
+    },
+    "OriginRealm": {
+     "name": "OriginRealm",
+     "requirement": "Mandatory",
+     "multiplicity": "Multiple",
+     "is_grouped": false
+    }
+   }
+  },
+  "PurgeUERequest": {
+   "message_name": "PurgeUERequest",
+   "original_message_name": "PurgeUERequest",
+   "direction": "MME -> DRA -> HSS (S6a, TS29.272 5.2.2.6)",
+   "mandatory_ies": [
+    "SessionId",
+    "UserName",
+    "OriginHost",
+    "OriginRealm",
+    "DestinationRealm"
+   ],
+   "ies": {
+    "SessionId": {
+     "name": "SessionId",
+     "requirement": "Mandatory",
+     "multiplicity": "Multiple",
+     "is_grouped": false
+    },
+    "UserName": {
+     "name": "UserName",
+     "requirement": "Mandatory",
+     "multiplicity": "Multiple",
+     "is_grouped": false
+    },
+    "OriginHost": {
+     "name": "OriginHost",
+     "requirement": "Mandatory",
+     "multiplicity": "Multiple",
+     "is_grouped": false
+    },
+    "OriginRealm": {
+     "name": "OriginRealm",
+     "requirement": "Mandatory",
+     "multiplicity": "Multiple",
+     "is_grouped": false
+    },
+    "DestinationRealm": {
+     "name": "DestinationRealm",
+     "requirement": "Mandatory",
+     "multiplicity": "Multiple",
+     "is_grouped": false
+    },
+    "PurgeUeFlags": {
+     "name": "PurgeUeFlags",
+     "requirement": "Conditional",
+     "multiplicity": "Multiple",
+     "is_grouped": false
+    }
+   }
+  },
+  "PurgeUEAnswer": {
+   "message_name": "PurgeUEAnswer",
+   "original_message_name": "PurgeUEAnswer",
+   "direction": "HSS -> DRA -> MME",
+   "mandatory_ies": [
+    "SessionId",
+    "ResultCode",
+    "OriginHost",
+    "OriginRealm"
+   ],
+   "ies": {
+    "SessionId": {
+     "name": "SessionId",
+     "requirement": "Mandatory",
+     "multiplicity": "Multiple",
+     "is_grouped": false
+    },
+    "ResultCode": {
+     "name": "ResultCode",
+     "requirement": "Mandatory",
+     "multiplicity": "Multiple",
+     "is_grouped": false
+    },
+    "OriginHost": {
+     "name": "OriginHost",
+     "requirement": "Mandatory",
+     "multiplicity": "Multiple",
+     "is_grouped": false
+    },
+    "OriginRealm": {
+     "name": "OriginRealm",
+     "requirement": "Mandatory",
+     "multiplicity": "Multiple",
+     "is_grouped": false
+    }
+   }
+  }
+ }
+}

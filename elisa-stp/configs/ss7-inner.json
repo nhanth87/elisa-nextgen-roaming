@@ -1,0 +1,44 @@
+{
+  "sctp" : {
+    "links" : [ {
+      "name" : "L-B",
+      "type" : "server",
+      "channel" : "sctp",
+      "local" : "127.0.0.1:8023",
+      "peer" : "127.0.0.1:8024",
+      "localSecondary" : [ ]
+    } ]
+  },
+  "m3ua" : {
+    "as" : [ {
+      "name" : "AS-B",
+      "mode" : "loadshare",
+      "functionality" : "ipsp",
+      "ipsp" : "server",
+      "routingContext" : 0,
+      "links" : [ "L-B" ]
+    } ],
+    "routes" : [ {
+      "to" : {
+        "dpc" : 3,
+        "opc" : 10
+      },
+      "via" : "AS-B"
+    } ]
+  },
+  "sccp" : {
+    "routing" : [ {
+      "from" : "remote",
+      "networkId" : 0,
+      "mask" : "R/-",
+      "match" : {
+        "gt" : "29190003/*"
+      },
+      "to" : {
+        "pc" : 3,
+        "ssn" : 8
+      }
+    } ]
+  },
+  "services" : [ ]
+}

@@ -1,0 +1,45 @@
+# Nextgen DRA — operator configuration template
+# Copy to application.properties next to run.sh (or export env vars) and fill in.
+
+# ── Database (bring your own) ─────────────────────────────────────────────
+# Demo default (no env needed): embedded H2 file under ./data/
+#   DRA_DB_KIND=h2  DRA_DB_URL=jdbc:h2:file:./data/dra;DB_CLOSE_DELAY=-1  DRA_DB_USER=sa
+#
+# Production example (PostgreSQL you own):
+#   export DRA_DB_KIND=postgresql
+#   export DRA_DB_URL=jdbc:postgresql://db-host:5432/dra
+#   export DRA_DB_USER=dra
+#   export DRA_DB_PASSWORD=<secret>
+quarkus.datasource.db-kind=${DRA_DB_KIND:h2}
+quarkus.datasource.username=${DRA_DB_USER:sa}
+quarkus.datasource.password=${DRA_DB_PASSWORD:}
+quarkus.datasource.jdbc.url=${DRA_DB_URL:jdbc:h2:file:./data/dra;DB_CLOSE_DELAY=-1}
+
+%prod.quarkus.flyway.migrate-at-start=true
+
+dra.bindings.ttl-default-seconds=86400
+dra.bindings.sweep-every=60s
+dra.bindings.sweep-every-seconds=60
+dra.bindings.sweep-batch-size=1000
+dra.bindings.writebehind.batch-size=200
+dra.bindings.writebehind.interval-millis=500
+dra.tx.timeout-millis=5000
+
+dra.overload.global-rate-per-sec=20000
+dra.overload.peer-rate-per-sec=8000
+dra.overload.critical-cmds=316,318,321,323
+
+dra.th.internal-domain-suffix=epc.mnc01.mcc452.3gppnetwork.org
+dra.th.pseudo-prefix=dra-edge
+dra.th.pseudo-count=4
+dra.th.full-edge=false
+dra.th.groups=
+
+# ── Relay plane knobs (wired into DraBootstrapBean) ──────────────────────
+dra.overload.global-burst=5000
+dra.overload.peer-burst=500
+dra.relay.max-retries=3
+dra.relay.sweep-period-millis=250
+# Fail-closed screening: unknown peering (not in dra-screening.json) is rejected
+# with DIAMETER_UNABLE_TO_DELIVER. Allowlist lives in configs/dra-screening.json.
+dra.screening.reject-unknown=true

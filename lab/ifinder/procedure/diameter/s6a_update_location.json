@@ -1,0 +1,51 @@
+{
+  "procedure_id": "S6A_Update_Location",
+  "direction": "MME -> DRA -> HSS pool (sticky binding)",
+  "dependency_procedures": [
+    "DIAMETER_Capabilities_Exchange"
+  ],
+  "message_flow": [
+    {
+      "seq": 1,
+      "from": "MME",
+      "to": "DRA",
+      "message": "UpdateLocationRequest",
+      "mandatory_ies": [
+        "UserName",
+        "VisitedPlmnId",
+        "UlrFlags",
+        "RatType"
+      ]
+    },
+    {
+      "seq": 2,
+      "from": "DRA",
+      "to": "HSS",
+      "message": "UpdateLocationRequest",
+      "mandatory_ies": [
+        "UserName",
+        "VisitedPlmnId"
+      ]
+    },
+    {
+      "seq": 3,
+      "from": "HSS",
+      "to": "DRA",
+      "message": "UpdateLocationAnswer",
+      "mandatory_ies": [
+        "ResultCode",
+        "OriginHost",
+        "OriginRealm"
+      ]
+    },
+    {
+      "seq": 4,
+      "from": "DRA",
+      "to": "MME",
+      "message": "UpdateLocationAnswer",
+      "mandatory_ies": [
+        "ResultCode"
+      ]
+    }
+  ]
+}

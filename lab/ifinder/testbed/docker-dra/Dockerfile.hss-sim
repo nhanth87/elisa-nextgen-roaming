@@ -1,0 +1,12 @@
+# HSS/SAS simulator (lab module of Nextgen-DRA, corsac-diameter based).
+# Context expects artifacts/sas-diameter-testapp-lab.jar (mvn -pl lab/sas-diameter-testapp package).
+FROM eclipse-temurin:25-jre
+WORKDIR /opt/hss
+COPY artifacts/sas-diameter-testapp-lab.jar app.jar
+EXPOSE 3869 8086
+CMD ["java","-XX:+ExitOnOutOfMemoryError","-jar","app.jar", \
+     "--listen-port","3869","--web-port","8086","--bind","0.0.0.0","--tcp", \
+     "--origin-host","hss-a.epc.mnc01.mcc452.3gppnetwork.org", \
+     "--origin-realm","epc.mnc01.mcc452.3gppnetwork.org", \
+     "--peer-host","dra1.epc.mnc01.mcc452.3gppnetwork.org", \
+     "--peer-realm","epc.mnc01.mcc452.3gppnetwork.org"]

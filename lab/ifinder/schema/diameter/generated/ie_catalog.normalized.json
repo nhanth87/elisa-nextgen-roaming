@@ -1,0 +1,127 @@
+{
+ "generated_at": "2026-08-24T00:00:00Z (re-authored from RFC6733 + TS29.272 local copies)",
+ "source_ie_dir": "schema/diameter/raw/IE",
+ "ies": {
+  "SessionId": {
+   "ie_name": "SessionId",
+   "avp_code": 263,
+   "is_grouped": false
+  },
+  "OriginHost": {
+   "ie_name": "OriginHost",
+   "avp_code": 264,
+   "is_grouped": false
+  },
+  "OriginRealm": {
+   "ie_name": "OriginRealm",
+   "avp_code": 296,
+   "is_grouped": false
+  },
+  "DestinationHost": {
+   "ie_name": "DestinationHost",
+   "avp_code": 293,
+   "is_grouped": false
+  },
+  "DestinationRealm": {
+   "ie_name": "DestinationRealm",
+   "avp_code": 283,
+   "is_grouped": false
+  },
+  "ResultCode": {
+   "ie_name": "ResultCode",
+   "avp_code": 268,
+   "is_grouped": false
+  },
+  "ExperimentalResult": {
+   "ie_name": "ExperimentalResult",
+   "avp_code": 298,
+   "is_grouped": true
+  },
+  "AuthSessionState": {
+   "ie_name": "AuthSessionState",
+   "avp_code": 277,
+   "is_grouped": false
+  },
+  "UserName": {
+   "ie_name": "UserName",
+   "avp_code": 1,
+   "is_grouped": false
+  },
+  "VisitedPlmnId": {
+   "ie_name": "VisitedPlmnId",
+   "avp_code": 1407,
+   "is_grouped": false
+  },
+  "RatType": {
+   "ie_name": "RatType",
+   "avp_code": 1242,
+   "is_grouped": false
+  },
+  "UlrFlags": {
+   "ie_name": "UlrFlags",
+   "avp_code": 1245,
+   "is_grouped": false
+  },
+  "AirFlags": {
+   "ie_name": "AirFlags",
+   "avp_code": 1248,
+   "is_grouped": false
+  },
+  "PurgeUeFlags": {
+   "ie_name": "PurgeUeFlags",
+   "avp_code": 1243,
+   "is_grouped": false
+  },
+  "RequestedEutranAuthenticationInfo": {
+   "ie_name": "RequestedEutranAuthenticationInfo",
+   "avp_code": 1410,
+   "is_grouped": false
+  },
+  "SupportedFeatures": {
+   "ie_name": "SupportedFeatures",
+   "avp_code": 628,
+   "is_grouped": false
+  },
+  "RedirectHost": {
+   "ie_name": "RedirectHost",
+   "avp_code": 292,
+   "is_grouped": false
+  },
+  "Drmp": {
+   "ie_name": "Drmp",
+   "avp_code": 301,
+   "is_grouped": false
+  },
+  "HostIpAddress": {
+   "ie_name": "HostIpAddress",
+   "avp_code": 257,
+   "is_grouped": false
+  },
+  "VendorId": {
+   "ie_name": "VendorId",
+   "avp_code": 266,
+   "is_grouped": false
+  },
+  "ProductName": {
+   "ie_name": "ProductName",
+   "avp_code": 269,
+   "is_grouped": false
+  },
+  "OriginStateId": {
+   "ie_name": "OriginStateId",
+   "avp_code": 278,
+   "is_grouped": false
+  },
+  "AuthApplicationId": {
+   "ie_name": "AuthApplicationId",
+   "avp_code": 258,
+   "is_grouped": false
+  },
+  "AcctApplicationId": {
+   "ie_name": "AcctApplicationId",
+   "avp_code": 259,
+   "is_grouped": false
+  }
+ },
+ "ie_count": 24
+}

@@ -1,0 +1,132 @@
+{
+  "stackName" : "stp-relay",
+  "protocols" : {
+    "map" : false,
+    "cap" : false
+  },
+  "sctp" : {
+    "connectDelay" : 1000,
+    "workerThreads" : 8,
+    "backend" : "NETTY_KERNEL",
+    "links" : [ {
+      "name" : "L-A",
+      "type" : "server",
+      "channel" : "sctp",
+      "local" : "127.0.0.1:8021",
+      "peer" : "127.0.0.1:8022",
+      "localSecondary" : [ ]
+    }, {
+      "name" : "L-B",
+      "type" : "server",
+      "channel" : "sctp",
+      "local" : "127.0.0.1:8023",
+      "peer" : "127.0.0.1:8024",
+      "localSecondary" : [ ]
+    }, {
+      "name" : "L-IWF",
+      "type" : "server",
+      "channel" : "sctp",
+      "local" : "127.0.0.1:8025",
+      "peer" : "127.0.0.1:8026",
+      "localSecondary" : [ ]
+    } ]
+  },
+  "m3ua" : {
+    "as" : [ {
+      "name" : "AS-A",
+      "mode" : "loadshare",
+      "functionality" : "ipsp",
+      "ipsp" : "server",
+      "routingContext" : 0,
+      "links" : [ "L-A" ]
+    }, {
+      "name" : "AS-B",
+      "mode" : "loadshare",
+      "functionality" : "ipsp",
+      "ipsp" : "server",
+      "routingContext" : 0,
+      "links" : [ "L-B" ]
+    }, {
+      "name" : "AS-IWF",
+      "mode" : "loadshare",
+      "functionality" : "ipsp",
+      "ipsp" : "server",
+      "routingContext" : 0,
+      "links" : [ "L-IWF" ]
+    } ],
+    "routes" : [ {
+      "to" : {
+        "dpc" : 2,
+        "opc" : 10
+      },
+      "via" : "AS-A"
+    }, {
+      "to" : {
+        "dpc" : 3,
+        "opc" : 10
+      },
+      "via" : "AS-B"
+    }, {
+      "to" : {
+        "dpc" : 4,
+        "opc" : 10
+      },
+      "via" : "AS-IWF"
+    } ]
+  },
+  "sccp" : {
+    "localPoints" : [ {
+      "pc" : 10,
+      "networkIndicator" : "national",
+      "networkId" : 0,
+      "reachablePointCodes" : [ 2, 3, 4 ]
+    } ],
+    "routing" : [ {
+      "from" : "remote",
+      "networkId" : 0,
+      "mask" : "R/-",
+      "match" : {
+        "gt" : "29190002/*"
+      },
+      "to" : {
+        "pc" : 2,
+        "ssn" : 8
+      }
+    }, {
+      "from" : "remote",
+      "networkId" : 0,
+      "mask" : "R/-",
+      "match" : {
+        "gt" : "29190003/*"
+      },
+      "to" : {
+        "pc" : 3,
+        "ssn" : 8
+      }
+    }, {
+      "from" : "remote",
+      "networkId" : 0,
+      "mask" : "R/-",
+      "match" : {
+        "gt" : "29190004/*"
+      },
+      "to" : {
+        "pc" : 4,
+        "ssn" : 8
+      }
+    } ]
+  },
+  "services" : [ {
+    "name" : "relay",
+    "ssn" : 8,
+    "protocol" : "tcap"
+  }, {
+    "name" : "relay-hlr",
+    "ssn" : 6,
+    "protocol" : "tcap"
+  }, {
+    "name" : "relay-sgsn",
+    "ssn" : 145,
+    "protocol" : "tcap"
+  } ]
+}
