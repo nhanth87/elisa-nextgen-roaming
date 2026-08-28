@@ -11,6 +11,16 @@
 
   <name>Elisa Roaming — Unified SS7 + Diameter signaling platform (STP + IWF + DRA)</name>
 
+  <!-- Dual-license (owner-held, Tran Nhan): AGPL-3.0-or-later (Community) |
+       commercial (Operator). See docs/research/licensing-dual-model.md. -->
+  <licenses>
+    <license>
+      <name>GNU Affero General Public License, Version 3.0 or later</name>
+      <url>https://www.gnu.org/licenses/agpl-3.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
   <modules>
     <module>elisa-fabric</module>
     <module>elisa-signaling-core</module>

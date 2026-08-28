@@ -2,7 +2,7 @@
 
 `et.elisa:elisa-roaming` — a monorepo unifying **STP + IWF + DRA** (Elisa core
 MVNO family). One Maven reactor, one build command, one shared set of
-docs/specs/lessons.
+conventions (see AGENTS.md).
 
 > **English is the default language for this README** (and root-level project
 > docs). Deep-dive design/runbook documents under `docs/` may keep their
@@ -31,7 +31,7 @@ docs/specs/lessons.
 ## Implemented protocol coverage (spec-complete)
 
 Every spec listed below is **implemented in source** (not merely referenced).
-Canonical spec copies: `docs/specs/` (see `docs/specs/README.md`).
+Canonical 3GPP/RFC copies are kept out of the public tree.
 
 ### 3GPP TS — 14 specs
 
@@ -100,7 +100,37 @@ Canonical spec copies: `docs/specs/` (see `docs/specs/README.md`).
   of every session.
 - `configs/*` = operator-owned, do not clobber on deploy; `app/` ships
   outside the jars.
-- Spec source: `docs/specs/`; operational lessons: `docs/agents/lessons.md`.
+- Canonical spec copies and internal runbooks stay out of the public tree.
+
+## License & Commercial Model (dual-license)
+
+Elisa Roaming is released under a **dual-license model** (MySQL/Sidekiq pattern),
+both grants held by the copyright owner (Tran Nhan): one **AGPL-3.0 Community**
+license and one proprietary **Operator** license.
+
+| Edition | License | Who | Channel |
+|---|---|---|---|
+| **Community** | AGPL-3.0-or-later | Free — **whole monorepo** (STP + IWF + DRA + fabric; D1=A) | Public source + AWS Marketplace free AMI |
+| **Operator** | Commercial (owner-held) | Operators/SIs; production rights (incl. micro-jainslee, D2) + SLA | Private offers, license-key enforced |
+
+**Why AGPL-3.0, not GPL/BSL/SSPL:** the DRA's Diameter transport links a local
+fork of Mobius **corsac-diameter, which is AGPL-3.0** — any distributed combined
+binary is legally AGPL. AGPL is therefore the only compatible *and* the
+monetization lever (same posture as the Mobicents/jSS7 ecosystem). All other
+deps (Quarkus, Log4j2, Jackson, Infinispan/JGroups) are Apache-2.0/LGPL —
+AGPL-compatible; `micro-jainslee` is in-house and owner-held under the same
+dual license (D2).
+
+**Open source + revenue ("trả tiền"):** Community edition is the free funnel
+(engineer adoption, MVNO labs); the paid Operator edition earns per-deployment
+license revenue (node/MPS/year), AWS Marketplace private offers keep 20%→3%
+fees, supported by L1/L2 SLA, training and deployment engineering.
+
+Research & decision record and the AWS Marketplace go-to-market plan are
+maintained privately (outside this public tree).
+Owner decisions (2026-08-28): **D1 = open everything** (single all-AGPL tree,
+incl. STP/fabric); **D2 = micro-jainslee dual-licensed** (AGPL/commercial);
+**D3 = Mobius corsac handled by direct relationship** — no open blocker.
 
 ## Git
 

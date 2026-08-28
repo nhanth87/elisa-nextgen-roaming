@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 380" font-family="sans-serif">
+  <title>I-CSCF → Elisa DRA → HSS pool — Cx/Dx routing</title>
+  <defs>
+    <marker id="arr" markerWidth="10" markerHeight="8" refX="8" refY="4" orient="auto">
+      <path d="M0 0 L10 4 L0 8 Z" fill="#475569"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="900" height="380" fill="#ffffff"/>
+  <text x="450" y="30" text-anchor="middle" font-size="16" font-weight="bold" fill="#78350f">IMS — I-CSCF → Elisa DRA (routing) → HSS pool (Cx/Dx)</text>
+
+  <!-- left: I-CSCF -->
+  <rect x="30" y="130" width="160" height="90" rx="8" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
+  <text x="110" y="158" text-anchor="middle" font-size="14" font-weight="bold" fill="#b45309">I-CSCF</text>
+  <text x="110" y="176" text-anchor="middle" font-size="11" fill="#92400e">Cx/Dx (IMS)</text>
+  <text x="110" y="194" text-anchor="middle" font-size="10" fill="#d97706">LIR(306)/LIA · UAR(300)/UAA</text>
+  <text x="110" y="210" text-anchor="middle" font-size="10" fill="#d97706">realm ims.mnc01.mcc452…</text>
+
+  <!-- center: Elisa DRA -->
+  <rect x="330" y="80" width="240" height="200" rx="10" fill="#e0f2fe" stroke="#0891b2" stroke-width="2"/>
+  <text x="450" y="105" text-anchor="middle" font-size="15" font-weight="bold" fill="#075985">ELISA DRA</text>
+  <text x="450" y="123" text-anchor="middle" font-size="11" fill="#155e75">Cx/Dx app 16777217 · realm-aware</text>
+  <text x="450" y="146" text-anchor="middle" font-size="11" font-weight="bold" fill="#0e7490">routing steps</text>
+  <text x="450" y="164" text-anchor="middle" font-size="10" fill="#155e75">1. HAS_APP Cx/Dx · RealmMatch ims.*</text>
+  <text x="450" y="180" text-anchor="middle" font-size="10" fill="#155e75">2. user-location-request → HSS</text>
+  <text x="450" y="196" text-anchor="middle" font-size="10" fill="#155e75">3. sticky by MSISDN/IMPU if bound</text>
+  <text x="450" y="212" text-anchor="middle" font-size="10" fill="#155e75">4. Route-Record + TH per peering</text>
+  <text x="450" y="228" text-anchor="middle" font-size="10" fill="#155e75">5. hbh rewrite per leg</text>
+  <text x="450" y="248" text-anchor="middle" font-size="10" fill="#0e7490">fail-closed: no route → 3002</text>
+  <text x="450" y="264" text-anchor="middle" font-size="10" fill="#0e7490">SLF-style: no binding → pool WRR</text>
+
+  <!-- right: HSS pool -->
+  <rect x="700" y="130" width="170" height="90" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="785" y="158" text-anchor="middle" font-size="14" font-weight="bold" fill="#15803d">HSS pool</text>
+  <text x="785" y="176" text-anchor="middle" font-size="11" fill="#166534">hss-a · hss-b (Cx/Dx)</text>
+  <text x="785" y="194" text-anchor="middle" font-size="10" fill="#16a34a">LIA 2001 / 5001</text>
+  <text x="785" y="210" text-anchor="middle" font-size="10" fill="#16a34a">UAR/UAA · PPR</text>
+
+  <!-- arrows -->
+  <path d="M190 175 L 330 150" fill="none" stroke="#d97706" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="245" y="140" font-size="10" fill="#b45309">LIR/UAR</text>
+  <path d="M570 150 L 700 160" fill="none" stroke="#16a34a" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="620" y="145" font-size="10" fill="#15803d">LIR (hbhOut)</text>
+  <path d="M700 190 L 570 190" fill="none" stroke="#16a34a" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="628" y="208" font-size="10" fill="#15803d">LIA / PPR</text>
+  <path d="M330 200 L 190 190" fill="none" stroke="#d97706" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="252" y="208" font-size="10" fill="#b45309">LIA (hbhIn)</text>
+
+  <text x="450" y="360" text-anchor="middle" font-size="10" fill="#94a3b8">TS 29.229 Cx/Dx · IR.88 §3.1.3 Diameter agents · SCTP transport</text>
+</svg>

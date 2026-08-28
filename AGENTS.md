@@ -25,7 +25,7 @@ Single-reactor multi-module Maven (`et.elisa:elisa-roaming:0.1.0-SNAPSHOT`):
 | `elisa-bom/` | Publishable BOM for downstream consumers |
 | `app/` | Static admin UI (htmx), ship outside jars |
 | `configs/` | Operator-owned runtime config (`dra-*.json`, `iwf.json`) — **không clobber khi deploy** |
-| `docs/` | design, plans, runbooks, research, security-lab, pending-issues, agents, **specs (3GPP/RFC/GSMA)** |
+| `docs/` | (**private — không push public**) design, plans, runbooks, research, security-lab, pending-issues, agents, **specs (3GPP/RFC/GSMA)** |
 
 ## Luật nhà (bắt buộc, toàn monorepo)
 - **Log4j2 only**: chỉ `org.apache.logging.log4j`; CẤM `java.util.logging`,
@@ -49,8 +49,9 @@ Single-reactor multi-module Maven (`et.elisa:elisa-roaming:0.1.0-SNAPSHOT`):
 - Test: JUnit 5. `mvn clean test` từ root xanh trước khi báo xong — đọc "Tests run:" thật.
 
 ## Spec compliance
-Danh sách đầy đủ 3GPP TS / IETF RFC / GSMA implement — xem `README.md` +
-`docs/specs/README.md`. Nguyên tắc: hằng số protocol phải derive/cite được từ spec;
+Danh sách đầy đủ 3GPP TS / IETF RFC / GSMA implement — xem `README.md`
+(§Implemented protocol coverage). Canonical spec copies được giữ riêng tư.
+Nguyên tắc: hằng số protocol phải derive/cite được từ spec;
 design doc lệch spec phải sửa doc theo spec, không sửa code theo doc.
 
 ## Git

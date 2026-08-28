@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 380" font-family="sans-serif">
+  <title>PCEF/P-GW → Elisa DRA → PCRF pool — Gx routing</title>
+  <defs>
+    <marker id="arr" markerWidth="10" markerHeight="8" refX="8" refY="4" orient="auto">
+      <path d="M0 0 L10 4 L0 8 Z" fill="#475569"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="900" height="380" fill="#ffffff"/>
+  <text x="450" y="30" text-anchor="middle" font-size="16" font-weight="bold" fill="#881337">PCC — PCEF/P-GW → Elisa DRA (routing) → PCRF pool (Gx)</text>
+
+  <!-- left: PCEF -->
+  <rect x="30" y="130" width="160" height="90" rx="8" fill="#ffe4e6" stroke="#e11d48" stroke-width="1.5"/>
+  <text x="110" y="158" text-anchor="middle" font-size="14" font-weight="bold" fill="#be123c">PCEF / P-GW</text>
+  <text x="110" y="176" text-anchor="middle" font-size="11" fill="#9f1239">Gx client</text>
+  <text x="110" y="194" text-anchor="middle" font-size="10" fill="#e11d48">CCR(272) INITIAL/UPDATE/TERM</text>
+  <text x="110" y="210" text-anchor="middle" font-size="10" fill="#e11d48">Framed-IP + APN binding</text>
+
+  <!-- center: Elisa DRA -->
+  <rect x="330" y="80" width="240" height="200" rx="10" fill="#e0f2fe" stroke="#0891b2" stroke-width="2"/>
+  <text x="450" y="105" text-anchor="middle" font-size="15" font-weight="bold" fill="#075985">ELISA DRA</text>
+  <text x="450" y="123" text-anchor="middle" font-size="11" fill="#155e75">Gx app 16777238 · :3868</text>
+  <text x="450" y="146" text-anchor="middle" font-size="11" font-weight="bold" fill="#0e7490">routing steps</text>
+  <text x="450" y="164" text-anchor="middle" font-size="10" fill="#155e75">1. rule gx-pcrf-binding (prio 300)</text>
+  <text x="450" y="180" text-anchor="middle" font-size="10" fill="#155e75">2. key = Framed-IP + APN</text>
+  <text x="450" y="196" text-anchor="middle" font-size="10" fill="#155e75">3. sticky → pcrf-pool (pcrf-a)</text>
+  <text x="450" y="212" text-anchor="middle" font-size="10" fill="#155e75">4. TxTable hbh rewrite + RR append</text>
+  <text x="450" y="228" text-anchor="middle" font-size="10" fill="#155e75">5. GPCAN binding TS 29.213</text>
+  <text x="450" y="248" text-anchor="middle" font-size="10" fill="#0e7490">fail-closed: no route → 3002</text>
+  <text x="450" y="264" text-anchor="middle" font-size="10" fill="#0e7490">no IP binding → CCA 5030</text>
+
+  <!-- right: PCRF pool -->
+  <rect x="700" y="130" width="170" height="90" rx="8" fill="#fae8ff" stroke="#c026d3" stroke-width="1.5"/>
+  <text x="785" y="158" text-anchor="middle" font-size="14" font-weight="bold" fill="#a21caf">PCRF pool</text>
+  <text x="785" y="176" text-anchor="middle" font-size="11" fill="#86198f">pcrf-a (10.0.1.21)</text>
+  <text x="785" y="194" text-anchor="middle" font-size="10" fill="#c026d3">CCA 2001 / 5030</text>
+  <text x="785" y="210" text-anchor="middle" font-size="10" fill="#c026d3">TS 29.212 Gx · TS 29.213 PCC</text>
+
+  <!-- arrows -->
+  <path d="M190 175 L 330 150" fill="none" stroke="#e11d48" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="245" y="140" font-size="10" fill="#be123c">CCR</text>
+  <path d="M570 150 L 700 160" fill="none" stroke="#c026d3" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="620" y="145" font-size="10" fill="#a21caf">CCR (hbhOut)</text>
+  <path d="M700 190 L 570 190" fill="none" stroke="#c026d3" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="628" y="208" font-size="10" fill="#a21caf">CCA 2001/5030</text>
+  <path d="M330 200 L 190 190" fill="none" stroke="#e11d48" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="252" y="208" font-size="10" fill="#be123c">CCA (hbhIn)</text>
+
+  <text x="450" y="360" text-anchor="middle" font-size="10" fill="#94a3b8">Gx CCR relay · PCC binding by Framed-IP+APN · SCTP transport · fail-closed</text>
+</svg>

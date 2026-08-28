@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 560" font-family="sans-serif">
+  <title>Elisa Roaming — STP + IWF + DRA unified routing topology</title>
+  <defs>
+    <marker id="arr" markerWidth="10" markerHeight="8" refX="8" refY="4" orient="auto">
+      <path d="M0 0 L10 4 L0 8 Z" fill="#475569"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="1000" height="560" fill="#ffffff"/>
+
+  <!-- Elisa centre cluster -->
+  <rect x="400" y="40" width="260" height="480" rx="12" fill="#e0f2fe" stroke="#0891b2" stroke-width="2"/>
+  <text x="530" y="30" text-anchor="middle" font-size="18" font-weight="bold" fill="#075985">ELISA — unified signaling platform</text>
+
+  <rect x="420" y="60" width="220" height="120" rx="8" fill="#cffafe" stroke="#0891b2" stroke-width="1.5"/>
+  <text x="530" y="88" text-anchor="middle" font-size="16" font-weight="bold" fill="#0e7490">DRA</text>
+  <text x="530" y="108" text-anchor="middle" font-size="11" fill="#155e75">Diameter routing hub</text>
+  <text x="530" y="124" text-anchor="middle" font-size="11" fill="#155e75">screen → rule → sticky →</text>
+  <text x="530" y="140" text-anchor="middle" font-size="11" fill="#155e75">TH → tx → HSS/PCRF pool</text>
+  <text x="530" y="162" text-anchor="middle" font-size="10" fill="#0e7490">S6a · Cx/Dx · Gx · SWx</text>
+
+  <rect x="420" y="200" width="220" height="110" rx="8" fill="#e0e7ff" stroke="#6366f1" stroke-width="1.5"/>
+  <text x="530" y="228" text-anchor="middle" font-size="16" font-weight="bold" fill="#4338ca">IWF</text>
+  <text x="530" y="248" text-anchor="middle" font-size="11" fill="#3730a3">MAP ↔ Diameter bridge</text>
+  <text x="530" y="264" text-anchor="middle" font-size="11" fill="#3730a3">TS 29.305 §7 mapping engine</text>
+  <text x="530" y="280" text-anchor="middle" font-size="10" fill="#4338ca">TCAP dialog · dialog affinity</text>
+  <text x="530" y="296" text-anchor="middle" font-size="10" fill="#4338ca">Diameter leg = DRA client (iwf1)</text>
+
+  <rect x="420" y="330" width="220" height="110" rx="8" fill="#fee2e2" stroke="#ef4444" stroke-width="1.5"/>
+  <text x="530" y="358" text-anchor="middle" font-size="16" font-weight="bold" fill="#b91c1c">STP</text>
+  <text x="530" y="378" text-anchor="middle" font-size="11" fill="#991b1b">SS7 transit (stateless)</text>
+  <text x="530" y="394" text-anchor="middle" font-size="11" fill="#991b1b">M3UA/SCCP relay · GTT</text>
+  <text x="530" y="410" text-anchor="middle" font-size="10" fill="#b91c1c">ACL default-deny · topology hiding</text>
+  <text x="530" y="426" text-anchor="middle" font-size="10" fill="#b91c1c">PC 100 · IWF internal PC 250</text>
+
+  <!-- Legacy left: SGSN -->
+  <rect x="30" y="60" width="180" height="70" rx="8" fill="#f8fafc" stroke="#64748b" stroke-width="1.5"/>
+  <text x="120" y="88" text-anchor="middle" font-size="14" font-weight="bold" fill="#334155">SGSN / MSC</text>
+  <text x="120" y="106" text-anchor="middle" font-size="11" fill="#475569">2G/3G legacy (MAP)</text>
+  <text x="120" y="122" text-anchor="middle" font-size="10" fill="#64748b">TCAP over SCCP/M3UA</text>
+  <path d="M210 95 C 300 130, 350 300, 420 355" fill="none" stroke="#475569" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="300" y="215" font-size="10" fill="#475569" transform="rotate(-8 300 215)">MAP · M3UA :2904 → :2905</text>
+
+  <!-- Left: MME -->
+  <rect x="30" y="180" width="180" height="70" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="120" y="208" text-anchor="middle" font-size="14" font-weight="bold" fill="#1d4ed8">MME</text>
+  <text x="120" y="226" text-anchor="middle" font-size="11" fill="#1e40af">S6a client</text>
+  <text x="120" y="242" text-anchor="middle" font-size="10" fill="#3b82f6">ULR / AIR / PUR</text>
+  <path d="M210 215 L 420 150" fill="none" stroke="#2563eb" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="280" y="165" font-size="10" fill="#1d4ed8">S6a · 16777251</text>
+
+  <!-- Left: I-CSCF -->
+  <rect x="30" y="300" width="180" height="70" rx="8" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
+  <text x="120" y="328" text-anchor="middle" font-size="14" font-weight="bold" fill="#b45309">I-CSCF</text>
+  <text x="120" y="346" text-anchor="middle" font-size="11" fill="#92400e">Cx/Dx (IMS)</text>
+  <text x="120" y="362" text-anchor="middle" font-size="10" fill="#d97706">LIR (306) / LIA, UAR/UAA</text>
+  <path d="M210 335 C 300 300, 350 250, 420 145" fill="none" stroke="#d97706" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="290" y="250" font-size="10" fill="#b45309">Cx/Dx · 16777217</text>
+
+  <!-- Left: PCEF / P-GW -->
+  <rect x="30" y="420" width="180" height="70" rx="8" fill="#ffe4e6" stroke="#e11d48" stroke-width="1.5"/>
+  <text x="120" y="448" text-anchor="middle" font-size="14" font-weight="bold" fill="#be123c">PCEF / P-GW</text>
+  <text x="120" y="466" text-anchor="middle" font-size="11" fill="#9f1239">Gx client</text>
+  <text x="120" y="482" text-anchor="middle" font-size="10" fill="#e11d48">CCR (272) / CCA</text>
+  <path d="M210 455 C 300 420, 350 360, 420 175" fill="none" stroke="#e11d48" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="290" y="330" font-size="10" fill="#be123c">Gx · 16777238</text>
+
+  <!-- Right: HSS pool -->
+  <rect x="780" y="120" width="190" height="90" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="875" y="148" text-anchor="middle" font-size="14" font-weight="bold" fill="#15803d">HSS-A / HSS-B</text>
+  <text x="875" y="166" text-anchor="middle" font-size="11" fill="#166534">mvno-hss-pool</text>
+  <text x="875" y="184" text-anchor="middle" font-size="10" fill="#16a34a">S6a · Cx/Dx · SWx</text>
+  <path d="M640 130 L 780 160" fill="none" stroke="#16a34a" stroke-width="1.5" marker-end="url(#arr)"/>
+  <path d="M640 190 L 780 180" fill="none" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="695" y="148" font-size="10" fill="#15803d">CLR/IDR; ULR 2001/5001/5421</text>
+
+  <!-- Right: PCRF pool -->
+  <rect x="780" y="320" width="190" height="90" rx="8" fill="#fae8ff" stroke="#c026d3" stroke-width="1.5"/>
+  <text x="875" y="348" text-anchor="middle" font-size="14" font-weight="bold" fill="#a21caf">PCRF</text>
+  <text x="875" y="366" text-anchor="middle" font-size="11" fill="#86198f">pcrf-pool</text>
+  <text x="875" y="384" text-anchor="middle" font-size="10" fill="#c026d3">Gx · PCC TS 29.213</text>
+  <path d="M640 280 L 780 360" fill="none" stroke="#c026d3" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="688" y="330" font-size="10" fill="#a21caf">CCR → CCA 2001 / 5030</text>
+
+  <!-- inter-cluster arrows -->
+  <path d="M530 310 L 530 330" fill="none" stroke="#4338ca" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="545" y="324" font-size="10" fill="#4338ca">M3UA :2905</text>
+  <path d="M530 200 L 530 180" fill="none" stroke="#0891b2" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="545" y="196" font-size="10" fill="#0891b2">S6a/S6d :3870</text>
+
+  <text x="500" y="540" text-anchor="middle" font-size="10" fill="#94a3b8">Every leg SCTP · Log4j2-only · fail-closed — ref: docs/design/integration-stp-iwf-dra.md</text>
+</svg>

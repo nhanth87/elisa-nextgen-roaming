@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 380" font-family="sans-serif">
+  <title>MME → Elisa DRA → HSS pool — S6a routing</title>
+  <defs>
+    <marker id="arr" markerWidth="10" markerHeight="8" refX="8" refY="4" orient="auto">
+      <path d="M0 0 L10 4 L0 8 Z" fill="#475569"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="900" height="380" fill="#ffffff"/>
+  <text x="450" y="30" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e3a8a">S6a roaming — MME → Elisa DRA (routing) → HSS pool</text>
+
+  <!-- left: MME -->
+  <rect x="30" y="130" width="160" height="90" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="110" y="158" text-anchor="middle" font-size="14" font-weight="bold" fill="#1d4ed8">MME</text>
+  <text x="110" y="176" text-anchor="middle" font-size="11" fill="#1e40af">S6a client</text>
+  <text x="110" y="194" text-anchor="middle" font-size="10" fill="#3b82f6">Origin: mme-01.epc.mnc01…</text>
+  <text x="110" y="210" text-anchor="middle" font-size="10" fill="#3b82f6">ULR(316) · AIR(318) · PUR(321)</text>
+
+  <!-- center: Elisa DRA -->
+  <rect x="330" y="80" width="240" height="200" rx="10" fill="#e0f2fe" stroke="#0891b2" stroke-width="2"/>
+  <text x="450" y="105" text-anchor="middle" font-size="15" font-weight="bold" fill="#075985">ELISA DRA</text>
+  <text x="450" y="123" text-anchor="middle" font-size="11" fill="#155e75">:3868 · S6a app 16777251</text>
+  <text x="450" y="146" text-anchor="middle" font-size="11" font-weight="bold" fill="#0e7490">routing steps</text>
+  <text x="450" y="164" text-anchor="middle" font-size="10" fill="#155e75">1. screening: ingress peer + realm</text>
+  <text x="450" y="180" text-anchor="middle" font-size="10" fill="#155e75">2. rule s6a-mvno-hss (priority 100)</text>
+  <text x="450" y="196" text-anchor="middle" font-size="10" fill="#155e75">3. WRR → hss-a(70)/hss-b(30)</text>
+  <text x="450" y="212" text-anchor="middle" font-size="10" fill="#155e75">4. TxTable hbhIn↔hbhOut rewrite</text>
+  <text x="450" y="228" text-anchor="middle" font-size="10" fill="#155e75">5. Route-Record append · sticky IMSI</text>
+  <text x="450" y="248" text-anchor="middle" font-size="10" fill="#0e7490">fail-closed: no match → 3002</text>
+  <text x="450" y="264" text-anchor="middle" font-size="10" fill="#0e7490">server-initiated (CLR/IDR) → binding</text>
+
+  <!-- right: HSS pool -->
+  <rect x="700" y="130" width="170" height="90" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="785" y="158" text-anchor="middle" font-size="14" font-weight="bold" fill="#15803d">HSS pool</text>
+  <text x="785" y="176" text-anchor="middle" font-size="11" fill="#166534">hss-a · hss-b</text>
+  <text x="785" y="194" text-anchor="middle" font-size="10" fill="#16a34a">ULA 2001 / 5001 / 5421</text>
+  <text x="785" y="210" text-anchor="middle" font-size="10" fill="#16a34a">CLR/IDR server-initiated</text>
+
+  <!-- arrows -->
+  <path d="M190 175 L 330 150" fill="none" stroke="#2563eb" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="245" y="140" font-size="10" fill="#1d4ed8">ULR/AIR/PUR</text>
+  <path d="M570 150 L 700 160" fill="none" stroke="#16a34a" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="620" y="145" font-size="10" fill="#15803d">ULR (hbhOut)</text>
+  <path d="M700 190 L 570 190" fill="none" stroke="#16a34a" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="628" y="208" font-size="10" fill="#15803d">ULA / CLR / IDR</text>
+  <path d="M330 200 L 190 190" fill="none" stroke="#2563eb" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="252" y="208" font-size="10" fill="#1d4ed8">ULA (hbhIn)</text>
+
+  <text x="450" y="360" text-anchor="middle" font-size="10" fill="#94a3b8">SCTP transport · antifailover by retryable set · sticky binding IMSI → ingress peer</text>
+</svg>

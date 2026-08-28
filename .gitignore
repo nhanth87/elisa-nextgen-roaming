@@ -7,3 +7,6 @@ dist/
 .vscode/
 .DS_Store
 dependency-reduced-pom.xml
+
+# Private — operator docs & spec copies are NOT published; exclude from public tree
+docs/
