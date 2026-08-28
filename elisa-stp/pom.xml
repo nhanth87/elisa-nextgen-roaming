@@ -86,6 +86,7 @@
             </exclusions>
         </dependency>
         <dependency><groupId>com.microjainslee</groupId><artifactId>jainslee-cluster</artifactId><version>${microjainslee.version}</version></dependency>
+        <dependency><groupId>et.elisa</groupId><artifactId>elisa-fabric</artifactId></dependency>
         <dependency><groupId>com.microjainslee</groupId><artifactId>ra-http-server</artifactId><version>${microjainslee.version}</version></dependency>
         <dependency><groupId>com.microjainslee</groupId><artifactId>jainslee-core</artifactId><version>${microjainslee.version}</version></dependency>
         <dependency><groupId>com.microjainslee</groupId><artifactId>jainslee-api</artifactId><version>${microjainslee.version}</version></dependency>

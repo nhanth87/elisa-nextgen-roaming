@@ -12,12 +12,14 @@
   <name>Elisa Roaming — Unified SS7 + Diameter signaling platform (STP + IWF + DRA)</name>
 
   <modules>
+    <module>elisa-fabric</module>
     <module>elisa-signaling-core</module>
     <module>elisa-dra</module>
     <module>elisa-stp</module>
     <module>elisa-iwf</module>
     <module>bench</module>
     <module>lab/sas-diameter-testapp</module>
+    <module>lab/sgsn-sim</module>
     <module>elisa-bom</module>
   </modules>
 
@@ -66,6 +68,11 @@
         <version>${junit.version}</version>
         <type>pom</type>
         <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>et.elisa</groupId>
+        <artifactId>elisa-fabric</artifactId>
+        <version>${project.version}</version>
       </dependency>
       <dependency>
         <groupId>et.elisa</groupId>

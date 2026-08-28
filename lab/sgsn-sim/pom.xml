@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>et.elisa</groupId>
+    <artifactId>elisa-roaming</artifactId>
+    <version>0.1.0-SNAPSHOT</version>
+    <relativePath>../../pom.xml</relativePath>
+  </parent>
+
+  <artifactId>sgsn-sim-lab</artifactId>
+
+  <name>SGSN MAP Simulator Lab (behind Nextgen STP, exercises IWF ↔ DRA bridge)</name>
+  <description>Lab MAP client (M3UA→SCCP→TCAP→MAP over SCTP). dials Nextgen STP :2905.
+      Implements the L3 oracle side of `docs/plans/iwf-e2e-test-plan.md`:
+      SGSN-sim → STP → IWF → DRA → HSS-testapp. Uses ra-jss7 (Ss7Stack)
+      directly as a plain Java library; no SLEE container.</description>
+
+  <properties>
+    <ss7.version>9.2.8-j25</ss7.version>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.microjainslee</groupId>
+      <artifactId>ra-jss7</artifactId>
+      <version>${microjainslee.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.mobicents.protocols.sctp</groupId>
+          <artifactId>sctp-impl</artifactId>
+        </exclusion>
+        <exclusion><groupId>log4j</groupId><artifactId>log4j</artifactId></exclusion>
+        <exclusion><groupId>org.slf4j</groupId><artifactId>slf4j-log4j12</artifactId></exclusion>
+        <exclusion><groupId>org.slf4j</groupId><artifactId>slf4j-jdk14</artifactId></exclusion>
+        <exclusion><groupId>org.slf4j</groupId><artifactId>slf4j-nop</artifactId></exclusion>
+      </exclusions>
+    </dependency>
+    <!-- map-api / sccp-api / tcap-api are pulled in transitively by ra-jss7
+         at version 9.2.8-j25. Don't redeclare them — the local repo's
+         _remote.repositories marker for the org.restcomm.* group is fragile
+         and a direct declaration triggers a fresh central lookup that
+         fails offline. ra-jss7's transitives resolve fine. -->
+    <dependency>
+      <groupId>org.mobicents.protocols.sctp</groupId>
+      <artifactId>sctp-core</artifactId>
+      <exclusions>
+        <exclusion><groupId>log4j</groupId><artifactId>log4j</artifactId></exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.mobicents.protocols.sctp</groupId>
+      <artifactId>sctp-impl</artifactId>
+      <exclusions>
+        <exclusion><groupId>log4j</groupId><artifactId>log4j</artifactId></exclusion>
+        <exclusion><groupId>org.slf4j</groupId><artifactId>slf4j-log4j12</artifactId></exclusion>
+      </exclusions>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-jul</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <scope>test</scope>
+    </dependency>
+  <dependency>
+      <groupId>et.elisa</groupId>
+      <artifactId>elisa-iwf</artifactId>
+      <version>${project.version}</version>
+      <exclusions>
+        <exclusion><groupId>org.jboss.slf4j</groupId><artifactId>slf4j-jboss-logmanager</artifactId></exclusion>
+        <exclusion><groupId>log4j</groupId><artifactId>log4j</artifactId></exclusion>
+        <exclusion><groupId>org.slf4j</groupId><artifactId>slf4j-log4j12</artifactId></exclusion>
+        <exclusion><groupId>org.slf4j</groupId><artifactId>slf4j-jdk14</artifactId></exclusion>
+      </exclusions>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>enforce-java-25</id>
+            <goals><goal>enforce</goal></goals>
+            <configuration>
+              <rules>
+                <requireJavaVersion>
+                  <version>[25,26)</version>
+                  <message>sgsn-sim-lab requires JDK 25 only. Use mise zulu-25.</message>
+                </requireJavaVersion>
+                <bannedDependencies>
+                  <excludes>
+                    <exclude>log4j:log4j</exclude>
+                    <exclude>org.slf4j:slf4j-log4j12</exclude>
+                    <exclude>ch.qos.reload4j:reload4j</exclude>
+                    <exclude>org.jboss.slf4j:slf4j-jboss-logmanager</exclude>
+                    <exclude>commons-logging:commons-logging</exclude>
+                  </excludes>
+                  <message>Log4j2-only policy violation: a forbidden logging backend was resolved.</message>
+                </bannedDependencies>
+              </rules>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <release>25</release>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

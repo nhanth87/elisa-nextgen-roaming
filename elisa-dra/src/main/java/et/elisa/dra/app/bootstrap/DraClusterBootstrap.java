@@ -1,4 +1,4 @@
-package et.elisa.stp.bootstrap;
+package et.elisa.dra.app.bootstrap;
 
 import com.microjainslee.cluster.ClusterManager;
 import com.microjainslee.core.MicroSleeConfiguration;
@@ -22,39 +22,37 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 import java.util.Optional;
 
 /**
- * Cluster wiring BEFORE traffic (GMLC {@code GmlcClusterBootstrap} pattern,
- * DESIGN §5): binds the ISPN {@link ClusterManager} on the container so
- * ra-jss7 HA seams (leases / peer-route affinity / admin fabric) see one
- * fabric before any RA activates. {@code @Priority(20)} runs this ahead of
- * {@link StpBootstrap}.
+ * DRA joins the IR.88 fabric BEFORE the relay plane activates
+ * ({@code @Priority(20)} ahead of {DraBootstrapBean}). Mirrors
+ * {@code StpClusterBootstrap}: one infinispan {@link ClusterManager} shared
+ * across STP + IWF + DRA; DRA owns {@code peer-topology}/{@code route-policy}/
+ * {@code th-map} (design §3).
  *
- * <p>DESIGN §9.5: the transit plane holds NO per-message state — this fabric
- * serves leases / admin / metrics only, never TCAP dialog state.</p>
+ * <p>Local test keeps {@code dra.cluster.enabled=false} → LOCAL caches, no
+ * JGroups.</p>
  */
 @ApplicationScoped
-public class StpClusterBootstrap {
-    private static final Logger LOG = LogManager.getLogger(StpClusterBootstrap.class);
+public class DraClusterBootstrap {
+    private static final Logger LOG = LogManager.getLogger(DraClusterBootstrap.class);
 
     @Inject MicroSleeContainer container;
 
-    @ConfigProperty(name = "stp.ha.node-id", defaultValue = "stp-node-1")
+    @ConfigProperty(name = "dra.cluster.node-id", defaultValue = "dra-node-1")
     String nodeIdProp;
-    @ConfigProperty(name = "stp.cluster.enabled", defaultValue = "false")
+    @ConfigProperty(name = "dra.cluster.enabled", defaultValue = "false")
     boolean clusterEnabledProp;
-    @ConfigProperty(name = "stp.cluster.stack")
+    @ConfigProperty(name = "dra.cluster.stack", defaultValue = "tcp")
     Optional<String> clusterStackProp;
-    @ConfigProperty(name = "stp.cluster.initial-hosts")
+    @ConfigProperty(name = "dra.cluster.initial-hosts", defaultValue = "localhost[7800]")
     Optional<String> clusterInitialHostsProp;
 
     private volatile ClusterManager cluster;
     private volatile ElisaFabric fabric;
 
-    /** Live fabric handle for RA seam wiring ({@code Ss7ApplyService}). Null after shutdown. */
     public ClusterManager clusterManager() {
         return cluster;
     }
 
-    /** IR.88 fabric view for the STP role (gtt-public / leases owner). */
     public ElisaFabric fabric() {
         return fabric;
     }
@@ -69,10 +67,9 @@ public class StpClusterBootstrap {
         manager.start();
         container.bindCluster(manager);
         cluster = manager;
-        fabric = new ElisaFabric(manager, FabricRole.STP);
-        LOG.info("STP cluster fabric on Infinispan: node={} clusterMode={} "
-                        + "(leases/admin/metrics only — no per-message state, DESIGN §9.5)",
-                manager.getNodeId(), manager.isClusterMode());
+        fabric = new ElisaFabric(manager, FabricRole.DRA);
+        LOG.info("DRA joined IR.88 fabric: node={} clusterMode={} fabricLocal={}",
+                manager.getNodeId(), manager.isClusterMode(), !fabric.clustered());
     }
 
     @PreDestroy

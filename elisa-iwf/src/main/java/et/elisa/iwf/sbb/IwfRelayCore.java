@@ -22,6 +22,7 @@ import et.elisa.iwf.IwfConfig;
 import et.elisa.iwf.diameter.DiaCmd;
 import et.elisa.iwf.mapping.DialogBindingRegistry;
 import et.elisa.iwf.ra.IwfSendCommand;
+import et.elisa.iwf.telemetry.IwfKpi;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -98,6 +99,9 @@ public final class IwfRelayCore {
             case 323 -> DiaCmd.NOR;
             default -> null;
         };
+        if (diaCmd != null) {
+            IwfKpi.diaRequest("inbound." + diaCmd.name());
+        }
         String imsi = safeImsi(request);
         DialogBindingRegistry.Binding binding = null;
         DialogBindingRegistry reg = bindingRegistry;

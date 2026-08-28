@@ -38,6 +38,10 @@
     <dependency><groupId>com.microjainslee</groupId><artifactId>adapter-quarkus</artifactId><version>${microjainslee.version}</version></dependency>
     <dependency><groupId>com.microjainslee</groupId><artifactId>jainslee-apt</artifactId><version>${microjainslee.version}</version><optional>true</optional></dependency>
     <dependency><groupId>com.microjainslee</groupId><artifactId>ra-jss7</artifactId><version>${microjainslee.version}</version></dependency>
+    <dependency><groupId>et.elisa</groupId><artifactId>elisa-fabric</artifactId></dependency>
+    <dependency><groupId>org.infinispan</groupId><artifactId>infinispan-core</artifactId></dependency>
+    <dependency><groupId>org.infinispan</groupId><artifactId>infinispan-commons</artifactId></dependency>
+    <dependency><groupId>org.jgroups</groupId><artifactId>jgroups</artifactId></dependency>
 
     <dependency>
       <groupId>io.micrometer</groupId>

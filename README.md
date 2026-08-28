@@ -1,35 +1,41 @@
 # Elisa Roaming — Unified SS7 + Diameter Signaling Platform
 
-`et.elisa:elisa-roaming` — monorepo hợp nhất **STP + IWF + DRA** (họ Elisa core
-MVNO). Một reactor Maven, một lệnh build, một bộ docs/specs/lessons dùng chung.
+`et.elisa:elisa-roaming` — a monorepo unifying **STP + IWF + DRA** (Elisa core
+MVNO family). One Maven reactor, one build command, one shared set of
+docs/specs/lessons.
 
-## Thành phần
+> **English is the default language for this README** (and root-level project
+> docs). Deep-dive design/runbook documents under `docs/` may keep their
+> original Vietnamese wording.
 
-| Module | Vai trò |
+## Components
+
+| Module | Role |
 |---|---|
-| `elisa-signaling-core` | Routing lib protocol-agnostic (`RoutingContext`, `Matcher`, `SignalingMessage`) — frozen contracts |
+| `elisa-signaling-core` | Protocol-agnostic routing library (`RoutingContext`, `Matcher`, `SignalingMessage`) — frozen contracts |
 | `elisa-stp` | Active-active SS7 STP (ra-jss7 M3UA/SCCP/GTT, Infinispan/JGroups clustering, SCTP-only, transit ACL + HA) |
-| `elisa-iwf` | IWF TS 29.305 MAP↔Diameter (mapping table + engine; MAP leg TCAP/ra-jss7, Diameter leg là **client của DRA**) |
+| `elisa-iwf` | IWF TS 29.305 MAP↔Diameter (mapping table + engine; MAP leg via TCAP/ra-jss7, Diameter leg is a **client of the DRA**) |
 | `elisa-dra` | Diameter routing/relay (corsac multi-peer RA, oxio/relay, screening, binding, overload, admin REST, Pg/Flyway) |
 | `bench` | DRA bench seeder/harness |
-| `lab/sas-diameter-testapp` | Lab HSS/AAA/PCRF simulators behind DRA |
-| `elisa-bom` | BOM pinning cho downstream |
+| `lab/sas-diameter-testapp` | Lab HSS/AAA/PCRF simulators behind the DRA |
+| `elisa-bom` | BOM pinning for downstream consumers |
 
 ## Build
 
-- **JDK 25** (`mise zulu-25`, pin trong root `mise.toml`); Maven 3.9.9.
-- Từ root: `mvn clean test` — 7 module, ~433 test (core 15, DRA 268, STP 64,
-  IWF 53, bench 4, lab 29), Log4j2-only qua surefire argLine ghim ở parent.
-- Không bao giờ hạ `maven.compiler.release`.
+- **JDK 25** (`mise zulu-25`, pinned in root `mise.toml`); Maven 3.9.9.
+- From the repo root: `mvn clean test` — 7 modules, ~433 tests (core 15,
+  DRA 268, STP 64, IWF 53, bench 4, lab 29); Log4j2-only enforced via the
+  surefire argLine pinned in the parent POM.
+- Never lower `maven.compiler.release`.
 
 ## Implemented protocol coverage (spec-complete)
 
-Mọi spec dưới đây đều **implement trong source** (không chỉ ghi reference).
-Bản sao tài liệu chuẩn: `docs/specs/` (xem `docs/specs/README.md`).
+Every spec listed below is **implemented in source** (not merely referenced).
+Canonical spec copies: `docs/specs/` (see `docs/specs/README.md`).
 
 ### 3GPP TS — 14 specs
 
-| TS | Tiêu đề | Implement trong |
+| TS | Title | Implemented in |
 |----|---------|-----------------|
 | **TS 29.305** (Rel-19) | IWF between MAP and Diameter | `Ts29305Table` (34 entries), `IwfEngine`, `MapOp`, `DiaCmd`, `DiaApp` |
 | **TS 29.002** (Rel-19) | MAP | `MapOp.java` (35 op codes: updateLocation, cancelLocation, insertSubscriberData, purgeMS, sendAuthenticationInfo, restoreData, notifyGPRS, sendRoutingInfo, provideSubscriberNumber, readyForSM, sendRoutingInfoForSM, activate/deactivateSS, register/erase/interrogateSS, processUnstructured(SS), ussdRequest, statusReport, alertServiceCentre, sendIMSI…) |
@@ -48,26 +54,26 @@ Bản sao tài liệu chuẩn: `docs/specs/` (xem `docs/specs/README.md`).
 
 ### IETF RFC — 8 specs
 
-| RFC | Tiêu đề | Implement trong |
+| RFC | Title | Implemented in |
 |-----|---------|-----------------|
 | **RFC 6733** (bis 7075) | Diameter Base Protocol | DRA `DiameterWireCodec`, `CorsacPeerFabric`, `RelayCore`; IWF `CorsacDiameterLeg` |
 | **RFC 7683** | Diameter Overload Indication (DOIC) | DRA `OlrCache`, `OverloadGateImpl`, OC-Supported-Features(621)/OC-OLR(623) |
 | **RFC 7944** | Diameter Routing Metric Priority (DRMP) | DRA `AvpCodes.DRMP(301)`, priority-based throttling |
 | **RFC 8583** | Diameter Load Balancing | DRA `LoadCache`, Load AVP(681), load-aware LB |
 | **RFC 4666** | SS7 M3UA | STP M3UA AS/ASP, routing contexts, loadshare, SLS |
-| **RFC 4960** | SCTP | STP sctp-impl/backend-fstack; toàn bộ project |
+| **RFC 4960** | SCTP | STP sctp-impl/backend-fstack; whole project |
 | **RFC 9260** | SCTP fragmentation | STP `sctp-backend-fstack` |
 | **RFC 7075** | Diameter realm-based redirect | DRA redirect (3006) handling |
 
 ### GSMA
 
-| Spec | Tiêu đề | Implement |
+| Spec | Title | Implementation |
 |------|---------|-----------|
-| **IR.88** (v28) | EPS Roaming Guidelines | DRA topology hiding, DEA behavior, allowlist per peering, app-id filter, realm routing |
+| **IR.88** (v28) | EPS Roaming Guidelines | DRA topology hiding, DEA behavior, per-peering allowlist, app-id filter, realm routing |
 
-### SS7 protocol stack (STP — không nằm trong 1 TS duy nhất)
+### SS7 protocol stack (STP — not owned by a single TS)
 
-| Protocol | Chuẩn | Implement |
+| Protocol | Standard | Implemented |
 |----------|-------|-----------|
 | MTP3 | Q.701–Q.703 | `SccpStackImpl.onMtp3TransferMessage`, routing label, SLS |
 | SCCP | Q.711–Q.714 | Connectionless relay (UDT/XUDT/LUDT), GTT, hop counter |
@@ -75,7 +81,7 @@ Bản sao tài liệu chuẩn: `docs/specs/` (xem `docs/specs/README.md`).
 | GTT | Q.714 §4 | `translationFunction`, GTT rules (`ss7.json`) |
 | ACL | implementation-defined | `SccpIncomingAcl`, per-OPC/SSN/GT allow-list, default-deny |
 
-### Tóm tắt coverage
+### Coverage summary
 
 | Domain | Protocols | Standards |
 |--------|-----------|-----------|
@@ -85,14 +91,17 @@ Bản sao tài liệu chuẩn: `docs/specs/` (xem `docs/specs/README.md`).
 | SS7/SIGTRAN transit | M3UA, SCCP class 0/1, GTT, ACL, topology hiding | RFC 4666, 4960, 9260, Q.7xx |
 | Security | IPsec (NDS/IP), realm validation, origin verification | TS 33.210, RFC 6733 §6.2 |
 
-## Quy ước (tóm tắt — đầy đủ ở `AGENTS.md`)
+## Conventions (summary — full version in `AGENTS.md`)
 
 - **Log4j2 only**, **SCTP only**, Java 25, immutable-first, LongAdder counters.
-- **Peer truth law**: LISTEN ≠ ready; ready = channel up + CEA/DWA OPEN; fail-closed
-  (3002), không silent-drop.
-- **Prove the artifact** trước khi báo xong; resource hygiene cuối phiên.
-- `configs/*` = operator-owned, không clobber khi deploy; `app/` ship ngoài jars.
-- Spec source: `docs/specs/`; lesson vận hành: `docs/agents/lessons.md`.
+- **Peer truth law**: LISTEN ≠ ready; ready = channel up + CEA/DWA OPEN;
+  fail-closed (3002), never silently drop.
+- **Prove the artifact** before declaring done; resource hygiene at the end
+  of every session.
+- `configs/*` = operator-owned, do not clobber on deploy; `app/` ships
+  outside the jars.
+- Spec source: `docs/specs/`; operational lessons: `docs/agents/lessons.md`.
 
 ## Git
-Chưa có remote — commit local được phép sau khi test xanh; không push.
+
+No remote yet — local commits are allowed once tests are green; do not push.

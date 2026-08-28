@@ -52,6 +52,7 @@
     <dependency><groupId>com.microjainslee</groupId><artifactId>jainslee-telemetry</artifactId><version>${microjainslee.version}</version></dependency>
     <dependency><groupId>com.microjainslee</groupId><artifactId>adapter-quarkus</artifactId><version>${microjainslee.version}</version></dependency>
     <dependency><groupId>com.microjainslee</groupId><artifactId>jainslee-apt</artifactId><version>${microjainslee.version}</version><optional>true</optional></dependency>
+    <dependency><groupId>et.elisa</groupId><artifactId>elisa-fabric</artifactId></dependency>
 
 
     <dependency><groupId>io.micrometer</groupId><artifactId>micrometer-registry-prometheus</artifactId></dependency>

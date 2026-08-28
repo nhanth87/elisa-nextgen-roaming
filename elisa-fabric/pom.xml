@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>et.elisa</groupId>
+    <artifactId>elisa-roaming</artifactId>
+    <version>0.1.0-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>elisa-fabric</artifactId>
+  <name>Elisa Fabric (IR.88 shared Infinispan control-plane: STP + IWF + DRA over one ClusterManager)</name>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.microjainslee</groupId>
+      <artifactId>jainslee-cluster</artifactId>
+      <version>${microjainslee.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.microjainslee</groupId>
+      <artifactId>jainslee-core</artifactId>
+      <version>${microjainslee.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.infinispan</groupId>
+      <artifactId>infinispan-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.infinispan</groupId>
+      <artifactId>infinispan-commons</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.jgroups</groupId>
+      <artifactId>jgroups</artifactId>
+    </dependency>
+
+    <dependency><groupId>org.apache.logging.log4j</groupId><artifactId>log4j-api</artifactId></dependency>
+    <dependency><groupId>org.apache.logging.log4j</groupId><artifactId>log4j-core</artifactId></dependency>
+
+    <dependency><groupId>org.junit.jupiter</groupId><artifactId>junit-jupiter</artifactId><scope>test</scope></dependency>
+  </dependencies>
+</project>

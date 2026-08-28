@@ -1,4 +1,4 @@
-package et.elisa.stp.bootstrap;
+package et.elisa.iwf.bootstrap;
 
 import com.microjainslee.cluster.ClusterManager;
 import com.microjainslee.core.MicroSleeConfiguration;
@@ -22,39 +22,34 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 import java.util.Optional;
 
 /**
- * Cluster wiring BEFORE traffic (GMLC {@code GmlcClusterBootstrap} pattern,
- * DESIGN §5): binds the ISPN {@link ClusterManager} on the container so
- * ra-jss7 HA seams (leases / peer-route affinity / admin fabric) see one
- * fabric before any RA activates. {@code @Priority(20)} runs this ahead of
- * {@link StpBootstrap}.
- *
- * <p>DESIGN §9.5: the transit plane holds NO per-message state — this fabric
- * serves leases / admin / metrics only, never TCAP dialog state.</p>
+ * IWF joins the IR.88 fabric before accepting traffic ({@code @Priority(20)}
+ * ahead of {@link IwfBootstrap}). IWF owns {@code imsi-context}/
+ * {@code dialog-bind} anchoring caches (design §3/§4.1); it READS
+ * {@code route-policy}/{@code th-map}/{@code peer-state} for MAP↔Diameter
+ * translation without REST queries (design §4).
  */
 @ApplicationScoped
-public class StpClusterBootstrap {
-    private static final Logger LOG = LogManager.getLogger(StpClusterBootstrap.class);
+public class IwfClusterBootstrap {
+    private static final Logger LOG = LogManager.getLogger(IwfClusterBootstrap.class);
 
     @Inject MicroSleeContainer container;
 
-    @ConfigProperty(name = "stp.ha.node-id", defaultValue = "stp-node-1")
+    @ConfigProperty(name = "iwf.cluster.node-id", defaultValue = "iwf-node-1")
     String nodeIdProp;
-    @ConfigProperty(name = "stp.cluster.enabled", defaultValue = "false")
+    @ConfigProperty(name = "iwf.cluster.enabled", defaultValue = "false")
     boolean clusterEnabledProp;
-    @ConfigProperty(name = "stp.cluster.stack")
+    @ConfigProperty(name = "iwf.cluster.stack", defaultValue = "tcp")
     Optional<String> clusterStackProp;
-    @ConfigProperty(name = "stp.cluster.initial-hosts")
+    @ConfigProperty(name = "iwf.cluster.initial-hosts", defaultValue = "localhost[7800]")
     Optional<String> clusterInitialHostsProp;
 
     private volatile ClusterManager cluster;
     private volatile ElisaFabric fabric;
 
-    /** Live fabric handle for RA seam wiring ({@code Ss7ApplyService}). Null after shutdown. */
     public ClusterManager clusterManager() {
         return cluster;
     }
 
-    /** IR.88 fabric view for the STP role (gtt-public / leases owner). */
     public ElisaFabric fabric() {
         return fabric;
     }
@@ -69,10 +64,9 @@ public class StpClusterBootstrap {
         manager.start();
         container.bindCluster(manager);
         cluster = manager;
-        fabric = new ElisaFabric(manager, FabricRole.STP);
-        LOG.info("STP cluster fabric on Infinispan: node={} clusterMode={} "
-                        + "(leases/admin/metrics only — no per-message state, DESIGN §9.5)",
-                manager.getNodeId(), manager.isClusterMode());
+        fabric = new ElisaFabric(manager, FabricRole.IWF);
+        LOG.info("IWF joined IR.88 fabric: node={} clusterMode={} fabricLocal={}",
+                manager.getNodeId(), manager.isClusterMode(), !fabric.clustered());
     }
 
     @PreDestroy

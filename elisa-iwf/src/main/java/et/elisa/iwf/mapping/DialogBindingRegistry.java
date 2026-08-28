@@ -1,5 +1,6 @@
 package et.elisa.iwf.mapping;
 
+import et.elisa.iwf.telemetry.IwfKpi;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
@@ -65,6 +66,7 @@ public final class DialogBindingRegistry {
         }
         bindings.put(imsi.trim(), new Binding(imsi.trim(), diameterSessionId,
                 diameterHopByHopId, mapDialogId, System.currentTimeMillis()));
+        IwfKpi.binding("bind");
     }
 
     /**
@@ -89,6 +91,7 @@ public final class DialogBindingRegistry {
     public void unbind(String imsi) {
         if (imsi != null) {
             bindings.remove(imsi.trim());
+            IwfKpi.binding("unbind");
         }
     }
 

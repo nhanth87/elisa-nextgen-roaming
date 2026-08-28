@@ -97,12 +97,20 @@ public class StpTransitApplyService {
         reloadFromDisk();
         StpTransitConfig cfg = config;
         if (!transitEnabled() || cfg == null) {
+            linkStatus.setTransitDetail("transit=off;enabled=" + transitEnabledProp
+                    + ";config=" + (cfg == null ? "absent" : "present"));
             LOG.info("STP transit profile not applied (enabled={} config={})",
                     transitEnabledProp, cfg == null ? "absent" : "present");
             return;
         }
         StpTransitProfile profile = cfg.toRaProfile();
         ra.setStpTransitProfile(profile);
+        // Dashboard "Transit (GTT/ACL)" card — previously never updated in the
+        // apply path (badge stuck DOWN); wire the live posture here.
+        linkStatus.setTransitDetail("transit=on;relay=" + profile.transitEnabled()
+                + ";removeSpc=" + profile.removeSpcOnRelay()
+                + ";acl=" + profile.aclRules().size()
+                + ";src=" + sourceFile);
         LOG.info("STP transit profile applied: relay={} removeSpc={} ha={} aclPeers={}",
                 profile.transitEnabled(), profile.removeSpcOnRelay(),
                 profile.haMode(), profile.aclRules().size());

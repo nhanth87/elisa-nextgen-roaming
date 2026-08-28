@@ -11,6 +11,7 @@ import et.elisa.iwf.mapping.AvpTransform;
 import et.elisa.iwf.mapping.DialogBindingRegistry;
 import et.elisa.iwf.mapping.IwfEngine;
 import et.elisa.iwf.ra.IwfRaEndpoint;
+import et.elisa.iwf.telemetry.IwfKpi;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.CompletableFuture;
@@ -223,6 +224,7 @@ public final class CorsacDiameterLeg implements DiameterLeg, AutoCloseable {
                         + config.draHost() + ":" + config.draPort());
             }
             sent.increment();
+            IwfKpi.diaRequest(cmd.name());
             link.sendMessage(request, noop());
             DialogBindingRegistry reg = bindingRegistry;
             if (reg != null) {
@@ -240,7 +242,13 @@ public final class CorsacDiameterLeg implements DiameterLeg, AutoCloseable {
             DiameterAnswer answer = future.get(config.responseTimeoutMillis(),
                     TimeUnit.MILLISECONDS);
             answered.increment();
-            return new DiaResult(hbh, resultCodeOf(answer));
+            int rc = resultCodeOf(answer);
+            if (rc >= 2000 && rc < 3000) {
+                IwfKpi.diaResponseSuccess(cmd.name());
+            } else {
+                IwfKpi.diaResponseFail(cmd.name());
+            }
+            return new DiaResult(hbh, rc);
         } catch (TimeoutException e) {
             pending.remove(hbh);
             timedOut.increment();
